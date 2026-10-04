@@ -3,7 +3,8 @@ import { Hero } from "@/components/store/hero";
 import { StatsBar } from "@/components/store/stats-bar";
 import { Features } from "@/components/store/features";
 import { HowItWorks } from "@/components/store/how-it-works";
-import { Shop } from "@/components/store/shop";
+import { RanksShowcase } from "@/components/store/ranks-showcase";
+import { Tip4ServEmbed } from "@/components/store/tip4serv-embed";
 import { Faq } from "@/components/store/faq";
 import { FinalCta } from "@/components/store/final-cta";
 import { Footer } from "@/components/store/footer";
@@ -22,7 +23,8 @@ export default function Home() {
         <StatsBar />
         <Features />
         <HowItWorks />
-        <Shop />
+        <RanksShowcase />
+        <Tip4ServEmbed />
         <Faq />
         <FinalCta />
       </main>

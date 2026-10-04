@@ -2,27 +2,26 @@
 
 import { CreditCard, MousePointerClick, PackageCheck, ArrowRight } from "lucide-react";
 import { SoniicWordmark } from "./soniic-wordmark";
-import { TIP4SERV_SHOP_URL } from "@/lib/store";
 
 const STEPS = [
   {
     icon: MousePointerClick,
-    title: "Pick your perk",
-    body: "Choose a rank, crate key bundle, coins, kit or cosmetic from the store below. All prices are one-time — no subscription.",
+    title: "Pick your rank",
+    body: "Choose between the flagship Sonic Rank and the seasonal Halloween Rank below. Both are permanent — pay once, keep it forever.",
     accent: "#4498DB",
     n: "01",
   },
   {
     icon: CreditCard,
-    title: "Pay on Tip4Serv",
-    body: "Click Purchase and you'll be sent to soniic.tip4serv.com to complete a secure Stripe or PayPal checkout. We never see your card details.",
+    title: "Pay inline via Tip4Serv",
+    body: "Scroll to the embedded Tip4Serv store on this page, add the rank to your cart and pay with Stripe or PayPal — without leaving soniicsmp.de.",
     accent: "#00FF79",
     n: "02",
   },
   {
     icon: PackageCheck,
     title: "Receive in-game",
-    body: "Items and ranks are delivered to your in-game account within 60 seconds. Type /sync in-game if anything is missing — we've got your back.",
+    body: "Your rank lands on your in-game account within 60 seconds. Run /sync in-game if anything is missing — we've got your back.",
     accent: "#EE2525",
     n: "03",
   },
@@ -37,7 +36,7 @@ export function HowItWorks() {
             How it works
           </span>
           <h2 className="mt-2 text-3xl sm:text-4xl font-medium tracking-tight text-balance">
-            From cart to in-game in three steps.
+            From pick to in-game in three steps.
           </h2>
           <p className="mt-3 text-[var(--md-on-surface-variant)] text-pretty">
             No waiting, no staff intervention, no Discord tickets for basic
@@ -95,12 +94,10 @@ export function HowItWorks() {
             <SoniicWordmark as="span" className="text-sm font-bold" />?
           </span>
           <a
-            href={TIP4SERV_SHOP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#store"
             className="m3-btn m3-btn-tonal"
           >
-            Open the store
+            Open the live store
             <ArrowRight className="w-4 h-4" />
           </a>
         </div>

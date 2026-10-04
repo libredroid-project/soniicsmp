@@ -3,7 +3,6 @@
 import { ArrowRight } from "lucide-react";
 import { SoniicWordmark } from "./soniic-wordmark";
 import { ServerIpCopy } from "./server-ip-copy";
-import { DISCORD_URL, TIP4SERV_SHOP_URL } from "@/lib/store";
 
 export function FinalCta() {
   return (
@@ -39,27 +38,18 @@ export function FinalCta() {
               ?
             </h2>
             <p className="mt-4 max-w-xl mx-auto text-[var(--md-on-surface-variant)] text-pretty">
-              Pick a rank, grab some keys, or just copy the IP and hop in.
-              Every purchase keeps SoniicSMP alive — thank you for the support.
+              Pick a rank above, then scroll down to the embedded Tip4Serv
+              store and checkout in seconds. Every purchase keeps
+              SoniicSMP alive — thank you for the support.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <a
-                href={TIP4SERV_SHOP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="m3-btn m3-btn-filled"
-              >
-                Open Tip4Serv Store
+              <a href="#ranks" className="m3-btn m3-btn-filled">
+                View the ranks
                 <ArrowRight className="w-4 h-4" />
               </a>
-              <a
-                href={DISCORD_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="m3-btn m3-btn-outlined"
-              >
-                Join the community
+              <a href="#store" className="m3-btn m3-btn-outlined">
+                Open live store
               </a>
               <ServerIpCopy />
             </div>

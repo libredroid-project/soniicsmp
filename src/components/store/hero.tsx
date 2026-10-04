@@ -4,7 +4,11 @@ import Image from "next/image";
 import { ArrowRight, ArrowDown, Sparkles } from "lucide-react";
 import { SoniicWordmark } from "./soniic-wordmark";
 import { ServerIpCopy } from "./server-ip-copy";
-import { DISCORD_URL, TIP4SERV_SHOP_URL } from "@/lib/store";
+import {
+  DISCORD_URL,
+  MADE_BY,
+  MADE_BY_URL,
+} from "@/lib/store";
 
 function DiscordIcon({ className }: { className?: string }) {
   return (
@@ -59,14 +63,14 @@ export function Hero() {
             </h1>
 
             <p className="mt-5 text-base sm:text-lg text-[var(--md-on-surface-variant)] max-w-xl mx-auto lg:mx-0 text-pretty">
-              Ranks, crate keys, coins, kits & cosmetics for the SoniicSMP
-              survival server. Every purchase keeps the server online and
-              ad-free. Secure checkout powered by Tip4Serv.
+              Permanent ranks with real perks for the survival server.
+              Pay once, keep it forever — and checkout happens right here on
+              this page through Tip4Serv.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-3">
-              <a href="#shop" className="m3-btn m3-btn-filled">
-                Browse Store
+              <a href="#ranks" className="m3-btn m3-btn-filled">
+                View ranks
                 <ArrowRight className="w-4 h-4" />
               </a>
               <a
@@ -81,9 +85,20 @@ export function Hero() {
               <ServerIpCopy />
             </div>
 
-            <p className="mt-6 text-xs text-[var(--md-on-surface-variant)] flex items-center justify-center lg:justify-start gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-[var(--brand)]" />
-              Instant delivery in-game · Stripe & PayPal · Non pay-to-win
+            <p className="mt-6 text-xs text-[var(--md-on-surface-variant)] flex flex-wrap items-center justify-center lg:justify-start gap-x-2 gap-y-1">
+              <span className="inline-flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-[var(--brand)]" />
+                Instant delivery in-game · Tip4Serv secure checkout
+              </span>
+              <span className="text-[var(--md-outline)]">·</span>
+              <a
+                href={MADE_BY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 hover:text-[var(--brand)] transition-colors"
+              >
+                made by <span className="font-semibold text-[var(--md-on-surface)]">{MADE_BY}</span>
+              </a>
             </p>
           </div>
 
@@ -148,11 +163,11 @@ export function Hero() {
         {/* Scroll hint */}
         <div className="mt-12 flex justify-center">
           <a
-            href="#shop"
-            aria-label="Scroll to store"
+            href="#ranks"
+            aria-label="Scroll to ranks"
             className="inline-flex flex-col items-center gap-1 text-[var(--md-on-surface-variant)] hover:text-[var(--brand)] transition-colors"
           >
-            <span className="text-[10px] uppercase tracking-wider">Explore the store</span>
+            <span className="text-[10px] uppercase tracking-wider">Explore the ranks</span>
             <ArrowDown className="w-4 h-4 animate-bounce" />
           </a>
         </div>

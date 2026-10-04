@@ -1,6 +1,6 @@
 "use client";
 
-import { Heart } from "lucide-react";
+import { Heart, Code2 } from "lucide-react";
 import { SoniicWordmark } from "./soniic-wordmark";
 import { ServerIpCopy } from "./server-ip-copy";
 import {
@@ -8,6 +8,8 @@ import {
   DISCORD_URL,
   SERVER_IP,
   SERVER_NAME,
+  MADE_BY,
+  MADE_BY_URL,
 } from "@/lib/store";
 
 const FOOTER_GROUPS = [
@@ -15,9 +17,9 @@ const FOOTER_GROUPS = [
     title: "Store",
     links: [
       { label: "Ranks", href: "#ranks" },
-      { label: "Crate Keys", href: "#crates" },
-      { label: "Coins", href: "#coins" },
-      { label: "Tip4Serv checkout", href: TIP4SERV_SHOP_URL, external: true },
+      { label: "Live Tip4Serv store", href: "#store" },
+      { label: "How it works", href: "#how" },
+      { label: "Open Tip4Serv in new tab", href: TIP4SERV_SHOP_URL, external: true },
     ],
   },
   {
@@ -25,7 +27,7 @@ const FOOTER_GROUPS = [
     links: [
       { label: "Discord", href: DISCORD_URL, external: true },
       { label: "FAQ", href: "#faq" },
-      { label: "Support a ticket", href: DISCORD_URL, external: true },
+      { label: "Support ticket", href: DISCORD_URL, external: true },
       { label: "Season 3 changelog", href: "#features" },
     ],
   },
@@ -151,10 +153,21 @@ export function Footer() {
           <p>
             © {new Date().getFullYear()} {SERVER_NAME}. Not affiliated with Mojang or Microsoft.
           </p>
-          <p className="flex items-center gap-1.5">
-            Built with
-            <Heart className="w-3.5 h-3.5 text-[var(--brand)]" />
-            by the SoniicSMP community · Payments by Tip4Serv
+          <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+            <span className="inline-flex items-center gap-1.5">
+              <Heart className="w-3.5 h-3.5 text-[var(--brand)]" />
+              Payments by Tip4Serv
+            </span>
+            <span className="text-[var(--md-outline)]">·</span>
+            <a
+              href={MADE_BY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 hover:text-[var(--brand)] transition-colors"
+            >
+              <Code2 className="w-3.5 h-3.5" />
+              made by <span className="font-semibold text-[var(--md-on-surface)]">{MADE_BY}</span>
+            </a>
           </p>
         </div>
       </div>
