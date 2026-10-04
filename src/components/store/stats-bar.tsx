@@ -67,7 +67,7 @@ const TILES: StatTile[] = [
         <span className="text-base font-mono font-semibold text-[var(--md-on-surface-variant)]">…</span>
       ) : (
         <span className="text-base font-mono font-semibold text-[var(--md-on-surface)]">
-          {s?.version || "—"}
+          {s?.version || "n/a"}
         </span>
       ),
   },
@@ -79,7 +79,7 @@ const TILES: StatTile[] = [
         <span className="text-sm text-[var(--md-on-surface-variant)]">…</span>
       ) : (
         <span className="text-sm text-[var(--md-on-surface-variant)] truncate max-w-[180px]">
-          {s?.motd || "—"}
+          {s?.motd || "n/a"}
         </span>
       ),
   },

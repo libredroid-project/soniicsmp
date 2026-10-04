@@ -5,6 +5,8 @@ import { SoniicWordmark } from "./soniic-wordmark";
 import { ServerIpCopy } from "./server-ip-copy";
 import {
   TIP4SERV_SHOP_URL,
+  TIP4SERV_TOS_URL,
+  TIP4SERV_PP_URL,
   DISCORD_URL,
   SERVER_IP,
   SERVER_NAME,
@@ -19,7 +21,7 @@ const FOOTER_GROUPS = [
       { label: "Ranks", href: "#ranks" },
       { label: "Checkout", href: "#checkout" },
       { label: "How it works", href: "#how" },
-      { label: "Open Tip4Serv in new tab", href: TIP4SERV_SHOP_URL, external: true },
+      { label: "Open Tip4Serv", href: TIP4SERV_SHOP_URL, external: true },
     ],
   },
   {
@@ -34,10 +36,18 @@ const FOOTER_GROUPS = [
   {
     title: "Connect",
     links: [
-      { label: `Copy IP — ${SERVER_IP}`, href: "#top" },
+      { label: `Copy IP: ${SERVER_IP}`, href: "#top" },
       { label: "Java & Bedrock crossplay", href: "#features" },
       { label: "Server status", href: "#top" },
       { label: "Staff team", href: DISCORD_URL, external: true },
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
+      { label: "Tip4Serv Terms (TOS)", href: TIP4SERV_TOS_URL, external: true },
+      { label: "Tip4Serv Privacy (PP)", href: TIP4SERV_PP_URL, external: true },
+      { label: "Open Tip4Serv shop", href: TIP4SERV_SHOP_URL, external: true },
     ],
   },
 ];

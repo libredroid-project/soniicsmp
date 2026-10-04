@@ -16,8 +16,11 @@
 // =========================================================================
 
 export const TIP4SERV_SHOP_URL = "https://soniic.tip4serv.com/";
-// Same URL — Tip4Serv's shop root is iframe-embeddable (verified via headers).
-export const TIP4SERV_EMBED_URL = "https://soniic.tip4serv.com/";
+// /checkout redirects (302) to /cart on Tip4Serv; we open this URL with the
+// user's username/email/rank as query params so the data flows to Tip4Serv.
+export const TIP4SERV_CHECKOUT_URL = "https://soniic.tip4serv.com/checkout";
+export const TIP4SERV_TOS_URL = "https://soniic.tip4serv.com/terms";
+export const TIP4SERV_PP_URL = "https://soniic.tip4serv.com/privacy";
 export const DISCORD_URL = "https://discord.gg/8dz9yJ7Hfu";
 export const SERVER_IP = "soniicsmp.de";
 export const SERVER_NAME = "SoniicSMP";

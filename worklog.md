@@ -213,3 +213,49 @@ Stage Summary:
 - Hero is now a simple traditional two-column layout: REAL Minecraft in-game screenshot (image-search result, MinecraftHub source) on the left using ~half the screen + SoniicSMP wordmark (MC gradient, no glow) + View ranks / Discord / IP copy buttons on the right. No badges, no floating stats, no scroll hint, no pulse dot, no overlay.
 - No strikethrough prices anywhere — old prices shown as plain small "was €X" text.
 - No dashed lines anywhere.
+
+---
+Task ID: 26-30
+Agent: main
+Task: Apply user feedback — no em dashes (—), no live catalog, no simple cards (something completely new/never-seen), checkout must auto-go to /checkout, links to Tip4Serv TOS & PP, green doesn't fit as main color (change it)
+
+Work Log:
+- Tested Tip4Serv TOS/PP URLs: /terms → 200, /privacy → 200 (also /privacy-policy → 200). Confirmed TIP4SERV_TOS_URL and TIP4SERV_PP_URL.
+- Changed brand color from green (#00FF79) to blue (#4498DB) in globals.css — matches the flagship Sonic rank's blue and the first letter of the wordmark. Updated: --brand, --brand-strong, --brand-hover, --brand-container (rgba(68,152,219,0.15)), --brand-on (#FFFFFF white text on blue), --primary, --ring, --sidebar-primary, --sidebar-ring. Also retinted --md-secondary-container from green (#103A33) to blue (#10304A) with --md-on-secondary-container #A6D4F5. Verified via Agent Browser: filled button bg = rgb(68, 152, 219) ✓.
+- Removed ALL em dashes (—) from user-facing copy:
+  - final-cta: "SoniicSMP alive. Thank you."
+  - how-it-works: step 1 "Both are permanent. Pay once, keep it forever."; step 3 "if anything is missing. We've got your back."
+  - features: "embedded below. Browse, add to cart"; "never expire, and future perks land free"; "convenience & cosmetics: fly, kits, prefixes"; "improving it for everyone, and you get some cool perks back."
+  - layout title: "SoniicSMP Store | Minecraft Server Ranks"
+  - stats-bar fallbacks: version/MOTD "n/a" instead of "—"
+  - footer: "Copy IP: soniicsmp.de" (was "Copy IP — soniicsmp.de")
+  - tip4serv-embed: all em dashes replaced with periods/colons
+  (Only remaining em dashes are in JSDoc/code comments, which don't render.)
+- Built the NEW "Rank Showdown" panel in ranks-showcase.tsx — a completely new, never-seen rank presentation (NOT simple cards):
+  - ONE unified m3-card (rounded-[28px], overflow-hidden, min-h-480px), not two separate cards.
+  - Desktop: diagonal split via clip-path — left half (Sonic) has polygon(0 0, 56% 0, 44% 100%, 0 100%) with blue-tint gradient bg; right half (Halloween) has polygon(56% 0, 100% 0, 100% 100%, 44% 100%) with dark purple bg. The diagonal creates a dynamic "duality" feel.
+  - Center seam: a thin vertical gradient bar (blue → teal → orange → purple, the MC gradient) skewed -8deg, plus a circular node with a "+" centered on the seam.
+  - Each half: "PATH 01"/"PATH 02" mono tier label, large bold rank name in accent color, description, price block (no strikethrough, "was €X" small text), 5 showcase perks, Purchase/Get-notified button → #checkout.
+  - Mobile: stacked vertically (md:grid-cols-2 collapses), no diagonal.
+  - VLM-confirmed: "novel and non-standard... Split-Path or Duality concept... resembles a choice between two destinies or factions... feels more like a high-end game selection screen or a futuristic interface than a traditional e-commerce product list. It successfully looks 'completely new'."
+- Removed the live catalog entirely from tip4serv-embed.tsx. The section is now JUST the checkout form (id="checkout"): rank selector + Minecraft username + email fields + "Continue to Tip4Serv checkout" button. Removed: /api/store fetch, loading skeleton, error state, LiveProductCard rendering, API badge, refresh button.
+- Deleted the now-unused /api/store route (src/app/api/store/route.ts).
+- Added TIP4SERV_CHECKOUT_URL, TIP4SERV_TOS_URL, TIP4SERV_PP_URL to store.ts.
+- Updated tip4serv-embed checkout URL: buildCheckoutUrl() now returns `https://soniic.tip4serv.com/checkout?username=X&email=Y&rank=Z` (was /product/soniic?...). The "Continue to Tip4Serv checkout" button opens this URL in a new tab → Tip4Serv /checkout (302-redirects to /cart with params preserved).
+- Added a "Legal" footer group with "Tip4Serv Terms (TOS)" → https://soniic.tip4serv.com/terms and "Tip4Serv Privacy (PP)" → https://soniic.tip4serv.com/privacy links. Footer now has 4 groups (Store/Community/Connect/Legal).
+- Lint: `bun run lint` → 0 errors, 0 warnings.
+- Agent Browser verification:
+  - Page loads, 0 errors, 0 console errors.
+  - Brand color verified blue: filled button bg = rgb(68, 152, 219) = #4498DB ✓.
+  - Rank Showdown panel: single unified panel with diagonal split (Sonic blue left, Halloween dark purple right), center seam + node, "PATH 01"/"PATH 02" tier labels, large bold rank names. VLM: "completely new, high-end game selection screen."
+  - Checkout section: only the form remains (rank selector + username + email + "Continue to Tip4Serv checkout" → opens /checkout URL). No live catalog.
+  - Footer: "Legal" group with "Tip4Serv Terms (TOS)" + "Tip4Serv Privacy (PP)" links verified.
+  - No em dashes in rendered copy.
+
+Stage Summary:
+- Brand color: green #00FF79 → blue #4498DB (matches Sonic rank + wordmark first letter).
+- Em dashes (—) removed from all rendered copy (replaced with periods/colons).
+- Rank Showdown panel: completely new diagonal-split "choose your path" design (one unified panel, Path 01/Path 02, center seam) — VLM-confirmed "never-seen, futuristic interface."
+- Live catalog removed entirely; /api/store route deleted. Checkout section is now just the form.
+- Checkout button → https://soniic.tip4serv.com/checkout?username=X&email=Y&rank=Z (the /checkout URL the user wanted).
+- Tip4Serv TOS + PP links added to a new "Legal" footer group.

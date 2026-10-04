@@ -20,7 +20,7 @@ export function FinalCta() {
             Scroll back up to the checkout form, enter your Minecraft
             username &amp; email, and we&apos;ll take you straight to the
             Tip4Serv secure checkout. Every purchase keeps
-            SoniicSMP alive — thank you.
+            SoniicSMP alive. Thank you.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">

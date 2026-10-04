@@ -19,7 +19,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SoniicSMP Store — Minecraft Server Ranks, Crates & Coins",
+  title: "SoniicSMP Store | Minecraft Server Ranks",
   description:
     "Support SoniicSMP and unlock ranks, crate keys, in-game coins, kits and cosmetics. Secure checkout powered by Tip4Serv. Join soniicsmp.de.",
   keywords: [

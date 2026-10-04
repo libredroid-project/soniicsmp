@@ -12,7 +12,7 @@ const FEATURES = [
   {
     icon: Shield,
     title: "Pay inline on this page",
-    body: "The full Tip4Serv store is embedded below — browse, add to cart and pay with Stripe or PayPal without leaving soniicsmp.de.",
+    body: "The full Tip4Serv store is embedded below. Browse, add to cart and pay with Stripe or PayPal without leaving soniicsmp.de.",
     accent: "#4498DB",
   },
   {
@@ -24,7 +24,7 @@ const FEATURES = [
   {
     icon: Gift,
     title: "Permanent ranks",
-    body: "Pay once, keep it forever. Sonic and Halloween ranks never expire — and future perks land free.",
+    body: "Pay once, keep it forever. Sonic and Halloween ranks never expire, and future perks land free.",
     accent: "#77924F",
   },
   {
@@ -36,7 +36,7 @@ const FEATURES = [
   {
     icon: InfinityIcon,
     title: "Non pay-to-win",
-    body: "All rank perks are convenience & cosmetics — fly, kits, prefixes. Never combat advantage in fair PvP.",
+    body: "All rank perks are convenience & cosmetics: fly, kits, prefixes. Never combat advantage in fair PvP.",
     accent: "#9C5FE2",
   },
 ];
@@ -55,7 +55,7 @@ export function Features() {
           <p className="mt-3 text-[var(--md-on-surface-variant)] text-pretty">
             SoniicSMP is a community-funded survival server. Every rank
             purchase is a direct contribution to keeping the world online and
-            improving it for everyone — and you get some cool perks back.
+            improving it for everyone, and you get some cool perks back.
           </p>
         </header>
 

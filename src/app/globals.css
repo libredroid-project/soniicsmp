@@ -69,16 +69,16 @@
   --md-surface-container-highest: #353C33;
   --md-scrim: rgba(0, 0, 0, 0.6);
 
-  /* === Brand (Minecraft green) === */
-  --brand: #00FF79;
-  --brand-strong: #00D966;
-  --brand-hover: #4DFF94;
-  --brand-container: rgba(0, 255, 121, 0.12);
-  --brand-on: #07140B;
+  /* === Brand (Minecraft blue — matches the flagship Sonic rank) === */
+  --brand: #4498DB;
+  --brand-strong: #3A85C4;
+  --brand-hover: #5FB0E8;
+  --brand-container: rgba(68, 152, 219, 0.15);
+  --brand-on: #FFFFFF;
 
-  /* Secondary tonal container */
-  --md-secondary-container: #103A33;
-  --md-on-secondary-container: #A6F5E2;
+  /* Secondary tonal container (blue-tinted to match brand) */
+  --md-secondary-container: #10304A;
+  --md-on-secondary-container: #A6D4F5;
 
   /* === Minecraft wordmark colors === */
   --mc-s1: #4498DB;
@@ -118,8 +118,8 @@
   --card-foreground: #EAF1E5;
   --popover: #20271D;
   --popover-foreground: #EAF1E5;
-  --primary: #00FF79;
-  --primary-foreground: #07140B;
+  --primary: #4498DB;
+  --primary-foreground: #FFFFFF;
   --secondary: #2A3128;
   --secondary-foreground: #EAF1E5;
   --muted: #2A3128;
@@ -130,7 +130,7 @@
   --destructive-foreground: #FFFFFF;
   --border: #2F382D;
   --input: #2F382D;
-  --ring: #00FF79;
+  --ring: #4498DB;
   --chart-1: #4498DB;
   --chart-2: #00FF79;
   --chart-3: #5FE2C5;
@@ -138,12 +138,12 @@
   --chart-5: #EE2525;
   --sidebar: #1A1F19;
   --sidebar-foreground: #EAF1E5;
-  --sidebar-primary: #00FF79;
-  --sidebar-primary-foreground: #07140B;
+  --sidebar-primary: #4498DB;
+  --sidebar-primary-foreground: #FFFFFF;
   --sidebar-accent: #2A3128;
   --sidebar-accent-foreground: #EAF1E5;
   --sidebar-border: #2F382D;
-  --sidebar-ring: #00FF79;
+  --sidebar-ring: #4498DB;
 }
 
 @layer base {

@@ -7,7 +7,7 @@ const STEPS = [
   {
     icon: MousePointerClick,
     title: "Pick your rank",
-    body: "Choose between the flagship Sonic Rank and the seasonal Halloween Rank. Both are permanent — pay once, keep it forever.",
+    body: "Choose between the flagship Sonic Rank and the seasonal Halloween Rank. Both are permanent. Pay once, keep it forever.",
     accent: "#4498DB",
     n: "01",
   },
@@ -21,7 +21,7 @@ const STEPS = [
   {
     icon: PackageCheck,
     title: "Receive in-game",
-    body: "Your rank lands on your in-game account within 60 seconds of payment. Run /sync in-game if anything is missing — we've got your back.",
+    body: "Your rank lands on your in-game account within 60 seconds of payment. Run /sync in-game if anything is missing. We've got your back.",
     accent: "#EE2525",
     n: "03",
   },
