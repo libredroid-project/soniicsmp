@@ -17,7 +17,7 @@ const FOOTER_GROUPS = [
     title: "Store",
     links: [
       { label: "Ranks", href: "#ranks" },
-      { label: "Live Tip4Serv store", href: "#store" },
+      { label: "Checkout", href: "#checkout" },
       { label: "How it works", href: "#how" },
       { label: "Open Tip4Serv in new tab", href: TIP4SERV_SHOP_URL, external: true },
     ],

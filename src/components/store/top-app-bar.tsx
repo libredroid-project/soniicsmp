@@ -11,7 +11,7 @@ import {
 
 const NAV_LINKS = [
   { href: "#ranks", label: "Ranks" },
-  { href: "#store", label: "Store" },
+  { href: "#checkout", label: "Checkout" },
   { href: "#how", label: "How it works" },
   { href: "#faq", label: "FAQ" },
 ];
@@ -123,14 +123,14 @@ export function TopAppBar() {
               <LibreDroidBadge compact />
             </span>
             <a
-              href="#store"
-              aria-label="Open the live Tip4Serv store"
+              href="#checkout"
+              aria-label="Open the Tip4Serv checkout"
               className="grid place-items-center w-10 h-10 rounded-full text-[var(--md-on-surface-variant)] hover:text-[var(--brand)] hover:bg-[var(--brand-container)] transition-colors"
             >
               <ShoppingCart className="w-5 h-5" />
             </a>
-            <a href="#ranks" className="m3-btn m3-btn-filled hidden sm:inline-flex">
-              View ranks
+            <a href="#checkout" className="m3-btn m3-btn-filled hidden sm:inline-flex">
+              Checkout
             </a>
             <button
               type="button"
@@ -160,11 +160,11 @@ export function TopAppBar() {
               </a>
             ))}
             <a
-              href="#ranks"
+              href="#checkout"
               onClick={() => setOpen(false)}
               className="m3-btn m3-btn-filled mt-2"
             >
-              View ranks
+              Checkout
             </a>
             <div className="mt-2 flex justify-center">
               <LibreDroidBadge />

@@ -24,26 +24,6 @@ export function Hero() {
       id="top"
       className="relative overflow-hidden pt-10 sm:pt-16 lg:pt-20 pb-12 lg:pb-20"
     >
-      {/* Ambient orbs */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full blur-3xl opacity-40"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(0,255,121,0.18), transparent 60%)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute top-40 -left-20 w-80 h-80 rounded-full blur-3xl opacity-30 float-y"
-        style={{ background: "radial-gradient(circle, rgba(68,152,219,0.25), transparent 60%)" }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute top-60 -right-20 w-80 h-80 rounded-full blur-3xl opacity-25 float-y"
-        style={{ animationDelay: "-3s", background: "radial-gradient(circle, rgba(238,37,37,0.22), transparent 60%)" }}
-      />
-
       <div className="container-m3 relative">
         <div className="grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-12 items-center">
           {/* Left: copy */}
@@ -105,8 +85,8 @@ export function Hero() {
           {/* Right: hero visual */}
           <div className="relative">
             <div
-              className="relative aspect-[4/5] sm:aspect-[5/4] lg:aspect-[4/5] rounded-[28px] overflow-hidden border border-[var(--md-outline-variant)] shadow-[var(--elev-4)]"
-              style={{ boxShadow: "var(--elev-4), 0 0 0 1px var(--md-outline-variant), 0 0 80px rgba(0,255,121,0.12)" }}
+              className="relative aspect-[4/5] sm:aspect-[5/4] lg:aspect-[4/5] rounded-[28px] overflow-hidden border border-[var(--md-outline-variant)]"
+              style={{ boxShadow: "var(--elev-3)" }}
             >
               <Image
                 src="/hero-bg.png"

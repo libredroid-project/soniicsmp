@@ -120,3 +120,53 @@ Stage Summary:
 - "Payment directly over the API" = real server-side Tip4Serv integration: `/api/store` route fetches soniic.tip4serv.com server-side, parses product cards to JSON, frontend renders the LIVE catalog (real image, prices, perks) inside our design. Purchase buttons deep-link to https://soniic.tip4serv.com/product/soniic where Tip4Serv's PCI-compliant Stripe/PayPal checkout completes. This is the only legal way to process card payments — the API integration is the catalog browsing, the payment is on Tip4Serv.
 - MC server IP soniicsmp.de present in hero (copy block), hero image overlay, and footer (copy card).
 - Only the Sonic rank from the screenshot is shown as the live product (fetched live from Tip4Serv). New Halloween rank added as a marketing card in the ranks showcase (with "Get notified" CTA) — it'll automatically appear in the live store section once the owner adds it to Tip4Serv.
+
+---
+Task ID: 14-20
+Agent: main
+Task: Apply user feedback — dark purple Halloween card background, no dashed lines, official Material 3 design, Kodanetwork header, no background effects, only real stats, direct-to-checkout form where user enters data on our site then goes to Tip4Serv
+
+Work Log:
+- Tested real stats APIs: `https://api.mcsrvstat.us/3/soniicsmp.de` returns live data (online=true, players 24/100, version 26.2, MOTD "A Minecraft Server", real player list). Discord invite `8dz9yJ7Hfu` is EXPIRED (code 50270) → dropped Discord/supporters stats, kept only real MC server stats.
+- Fetched Kodanetwork header CSS from /tmp/koda.json: `.top-app-bar { background: var(--md-surface) }` (NOT transparent) at top → scrolled `.scrolled { background: var(--md-surface-container); box-shadow: var(--elev-2) }`. Updated my globals.css to match exactly.
+- Rewrote `src/app/globals.css`:
+  - `.top-app-bar` now `background: var(--md-surface)` at top (not transparent+blur), scrolled → `var(--md-surface-container)` + elev-2 (matches Kodanetwork).
+  - Removed `.bg-ambient` (radial gradient layers) and `.bg-grid` (grid pattern) classes entirely.
+  - Removed `.float-y` animation.
+  - Removed card glow effects from `.m3-card-hover` (now just M3 elevation border-color change + translate).
+  - Added `--md-purple-surface` #1C1130, `--md-purple-container` #271640, `--md-purple-on-surface` #E8D9F5, `--md-purple-outline-variant` #3A2456 tokens for the Halloween card.
+  - Added proper M3 `.m3-text-field` outlined variant (1px outline, 8px radius, focus → 2px brand outline, floating label with surface-bg notch).
+  - Body background is now flat `var(--md-surface)` — zero effects.
+- Updated `src/app/page.tsx`: removed `<div className="bg-ambient" />` and `<div className="bg-grid" />` background layers.
+- Updated `src/components/store/hero.tsx`: removed the 3 floating orb gradient divs (top-center green, left blue, right red) and the radial glow on hero image container (now just `boxShadow: var(--elev-3)`).
+- Updated `src/components/store/final-cta.tsx`: removed radial-gradient background + decorative pixel-grid pattern → clean `m3-card` flat surface.
+- Updated `src/components/store/how-it-works.tsx`: removed the connecting gradient line between steps; updated step 2 copy "Enter your details here" (mentions filling username & email on the checkout form).
+- Built `src/app/api/server-status/route.ts`: server-side fetch of `https://api.mcsrvstat.us/3/soniicsmp.de`, returns real {online, ip, port, motd, playersOnline, playersMax, version, icon, fetchedAt}. ISR 60s.
+- Rewrote `src/components/store/stats-bar.tsx`: fetches /api/server-status on mount + every 60s. Shows 4 REAL tiles: Server status (Online/Offline + pulse dot), Players X/Y, Server version, Server MOTD. Removed fake supporters + Discord members. Added "Live data from the Minecraft server status ping (mcsrvstat.us) · refreshed every 60s" caption.
+- Added `theme?: "default" | "purple"` field to Rank interface in `src/lib/store.ts`; set `theme: "purple"` on the Halloween rank.
+- Updated `src/components/store/ranks-showcase.tsx` RankCard: when `rank.theme === "purple"`, applies `--md-purple-container` background, `--md-purple-surface` for the inner perks container, `--md-purple-on-surface` for variant text, `--md-purple-outline-variant` for borders → Halloween card now has dark purple (dunkellila) background. Removed the featured radial-glow overlay entirely. CTA now scrolls to `#checkout` (was `#store`).
+- Rewrote `src/components/store/tip4serv-embed.tsx` (now the Checkout section, `id="checkout"`):
+  - New checkout form: rank selector (radio cards, Sonic selected by default since live; Halloween shows "SOON" badge & is non-selectable for checkout), M3 outlined text fields for Minecraft username (regex validated ^[a-zA-Z0-9_]{3,16}$) and email (validated), live price summary, "Continue to Tip4Serv checkout" button. On submit → `window.open("https://soniic.tip4serv.com/product/soniic?username=X&email=Y", "_blank")` — user enters ALL data on our site, then goes directly to Tip4Serv secure checkout.
+  - Below the form: the live Tip4Serv catalog (fetched via /api/store) showing the real Soniic rank card with image/price/perks + "Open on Tip4Serv" link.
+  - Removed the iframe embed entirely (it rendered blank — Tip4Serv frame-busts).
+- Updated `src/components/store/top-app-bar.tsx`: nav links now Ranks/Checkout/How it works/FAQ; cart icon → #checkout; "Checkout" filled button in header + mobile drawer.
+- Updated `src/components/store/footer.tsx` + `final-cta.tsx` + `how-it-works.tsx` links: all `#store` → `#checkout`.
+- Lint: `bun run lint` → 0 errors, 0 warnings (clean).
+- Agent Browser verification (all VLM-confirmed):
+  - Page loads, 0 errors, 0 console errors.
+  - Stats bar shows REAL data: "Online" (green dot), "24/100" players, "26.2" version, "A Minecraft Server" MOTD, "Live data from mcsrvstat.us · refreshed every 60s" caption. ✓
+  - Ranks showcase: Halloween card has DARK PURPLE background (VLM: "Deep Dark Purple/Violet, a rich dark plum color"); Sonic card has normal dark slate background; NO dashed lines anywhere; flat page background with no glow/grid effects. ✓
+  - Checkout form: M3 rank selector (Sonic selected with green checkmark, Halloween shows "SOON" badge + dark purple bg), M3 outlined text fields with floating labels (Minecraft username + Email), green "Continue to Tip4Serv checkout" button, summary line showing live price, validation messages. Form fills correctly (Steve/test@example.com). ✓
+  - Live catalog: real Soniic rank product card renders below the form (image, €5→€4, -20%, perks, "Open on Tip4Serv" → https://soniic.tip4serv.com/product/soniic). ✓
+  - Made by libreDroid badge in top app bar + hero + footer. ✓
+  - Mobile responsive (390×844): hamburger Toggle menu appears, libreDroid badge, View ranks CTA. ✓
+  - Real APIs: GET /api/server-status 200 (returns 24/100 online), GET /api/store 200 (returns Soniic rank), GET / 200. ✓
+
+Stage Summary:
+- Halloween card now has dark purple (dunkellila) background via `theme: "purple"` + dedicated purple surface tokens.
+- All dashed lines removed.
+- Official Material 3 design throughout (proper M3 elevation, shape, color roles, outlined text fields, button variants) — no more glow effects.
+- Kodanetwork header matched exactly (surface bg at top → surface-container + elev-2 on scroll).
+- Website background is flat dark — zero effects (removed bg-ambient, bg-grid, floating orbs, hero glow, final-cta radial gradient + pixel grid, how-it-works connecting line).
+- Only REAL stats: 4 tiles driven by /api/server-status fetching live mcsrvstat.us data (Online, 24/100 players, version 26.2, MOTD). Fake Discord/supporters numbers removed.
+- Direct-to-checkout flow: user enters Minecraft username + email on the #checkout form on our site → "Continue to Tip4Serv checkout" opens https://soniic.tip4serv.com/product/soniic?username=X&email=Y in a new tab where Tip4Serv's PCI-compliant Stripe/PayPal checkout completes.

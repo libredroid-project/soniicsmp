@@ -7,21 +7,21 @@ const STEPS = [
   {
     icon: MousePointerClick,
     title: "Pick your rank",
-    body: "Choose between the flagship Sonic Rank and the seasonal Halloween Rank below. Both are permanent — pay once, keep it forever.",
+    body: "Choose between the flagship Sonic Rank and the seasonal Halloween Rank. Both are permanent — pay once, keep it forever.",
     accent: "#4498DB",
     n: "01",
   },
   {
     icon: CreditCard,
-    title: "Pay inline via Tip4Serv",
-    body: "Scroll to the embedded Tip4Serv store on this page, add the rank to your cart and pay with Stripe or PayPal — without leaving soniicsmp.de.",
+    title: "Enter your details here",
+    body: "Fill in your Minecraft username & email on the checkout form below. We pass them to Tip4Serv and take you straight to secure Stripe / PayPal checkout.",
     accent: "#00FF79",
     n: "02",
   },
   {
     icon: PackageCheck,
     title: "Receive in-game",
-    body: "Your rank lands on your in-game account within 60 seconds. Run /sync in-game if anything is missing — we've got your back.",
+    body: "Your rank lands on your in-game account within 60 seconds of payment. Run /sync in-game if anything is missing — we've got your back.",
     accent: "#EE2525",
     n: "03",
   },
@@ -45,16 +45,6 @@ export function HowItWorks() {
         </header>
 
         <div className="grid md:grid-cols-3 gap-4 lg:gap-6 relative">
-          {/* Connecting line */}
-          <div
-            aria-hidden
-            className="hidden md:block absolute top-[44px] left-[16%] right-[16%] h-px"
-            style={{
-              background:
-                "linear-gradient(to right, transparent, rgba(0,255,121,0.4) 20%, rgba(238,37,37,0.4) 80%, transparent)",
-            }}
-          />
-
           {STEPS.map((s) => (
             <div
               key={s.n}
@@ -94,10 +84,10 @@ export function HowItWorks() {
             <SoniicWordmark as="span" className="text-sm font-bold" />?
           </span>
           <a
-            href="#store"
+            href="#checkout"
             className="m3-btn m3-btn-tonal"
           >
-            Open the live store
+            Go to checkout
             <ArrowRight className="w-4 h-4" />
           </a>
         </div>

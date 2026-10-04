@@ -42,6 +42,8 @@ export interface Rank {
   accent: string;
   /** Optional second accent for gradient effects (e.g. Halloween orange→purple). */
   accent2?: string;
+  /** Surface theme for the card. 'purple' = dark purple background. */
+  theme?: "default" | "purple";
   /** Badge shown top-right of the card. */
   badge?: "NEW" | "POPULAR" | "LIMITED" | "-20%" | "SEASONAL";
   /** Perks list (each rendered with a check icon). */
@@ -91,6 +93,7 @@ export const ranks: Rank[] = [
     // Halloween: orange → purple
     accent: "#FF6B00",
     accent2: "#9C5FE2",
+    theme: "purple",
     badge: "NEW",
     featured: true,
     live: false,

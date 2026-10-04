@@ -78,6 +78,21 @@ function RankCard({ rank }: { rank: Rank }) {
   const discount = getDiscount(rank);
   const accent = rank.accent;
   const accent2 = rank.accent2 ?? rank.accent;
+  const isPurple = rank.theme === "purple";
+
+  // Surface variables per theme
+  const surface = isPurple
+    ? "var(--md-purple-container)"
+    : "var(--md-surface-container)";
+  const surfaceLow = isPurple
+    ? "var(--md-purple-surface)"
+    : "var(--md-surface-container-low)";
+  const onSurfaceVariant = isPurple
+    ? "var(--md-purple-on-surface)"
+    : "var(--md-on-surface-variant)";
+  const outlineVariant = isPurple
+    ? "var(--md-purple-outline-variant)"
+    : "var(--md-outline-variant)";
 
   return (
     <article
@@ -86,20 +101,11 @@ function RankCard({ rank }: { rank: Rank }) {
         {
           "--accent": accent,
           "--accent2": accent2,
+          background: surface,
+          borderColor: outlineVariant,
         } as React.CSSProperties
       }
     >
-      {/* Featured glow */}
-      {rank.featured && (
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-40"
-          style={{
-            background: `radial-gradient(circle at 50% 0%, ${accent}1f, transparent 55%)`,
-          }}
-        />
-      )}
-
       <div className="relative flex flex-col gap-4">
         {/* Badge */}
         {rank.badge && (
@@ -129,7 +135,10 @@ function RankCard({ rank }: { rank: Rank }) {
           <p className="text-sm font-semibold" style={{ color: accent }}>
             {rank.tagline}
           </p>
-          <p className="mt-1.5 text-sm text-[var(--md-on-surface-variant)] leading-relaxed text-pretty">
+          <p
+            className="mt-1.5 text-sm leading-relaxed text-pretty"
+            style={{ color: onSurfaceVariant }}
+          >
             {rank.description}
           </p>
         </div>
@@ -137,7 +146,10 @@ function RankCard({ rank }: { rank: Rank }) {
         {/* Price block */}
         <div className="flex items-end justify-center gap-2.5 py-1">
           {rank.originalPrice && (
-            <span className="text-lg text-[var(--md-on-surface-variant)] line-through font-mono">
+            <span
+              className="text-lg line-through font-mono"
+              style={{ color: onSurfaceVariant }}
+            >
               {formatPrice(rank.originalPrice)}
             </span>
           )}
@@ -149,14 +161,26 @@ function RankCard({ rank }: { rank: Rank }) {
           </span>
         </div>
         {rank.live === false && (
-          <p className="text-center text-[11px] text-[var(--md-on-surface-variant)] -mt-3">
-            Coming soon to the Tip4Serv store below
+          <p
+            className="text-center text-[11px] -mt-3"
+            style={{ color: onSurfaceVariant }}
+          >
+            Coming soon to the Tip4Serv checkout below
           </p>
         )}
 
         {/* Perks */}
-        <div className="rounded-2xl bg-[var(--md-surface-container-low)] border border-[var(--md-outline-variant)] p-4">
-          <p className="text-[10px] uppercase tracking-wider font-semibold text-[var(--md-on-surface-variant)] mb-2.5">
+        <div
+          className="rounded-2xl border p-4"
+          style={{
+            background: surfaceLow,
+            borderColor: outlineVariant,
+          }}
+        >
+          <p
+            className="text-[10px] uppercase tracking-wider font-semibold mb-2.5"
+            style={{ color: onSurfaceVariant }}
+          >
             What&apos;s included
           </p>
           <ul className="flex flex-col gap-2 max-h-56 overflow-y-auto scrollbar-mc pr-1">
@@ -175,8 +199,8 @@ function RankCard({ rank }: { rank: Rank }) {
           </ul>
         </div>
 
-        {/* CTA: scroll to the embedded Tip4Serv store */}
-        <a href="#store" className="m3-btn m3-btn-filled w-full">
+        {/* CTA: scroll to the checkout form */}
+        <a href="#checkout" className="m3-btn m3-btn-filled w-full">
           {rank.live ? "Purchase" : "Get notified"}
           <ArrowDown className="w-4 h-4" />
         </a>
