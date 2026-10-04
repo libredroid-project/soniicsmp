@@ -259,3 +259,43 @@ Stage Summary:
 - Live catalog removed entirely; /api/store route deleted. Checkout section is now just the form.
 - Checkout button → https://soniic.tip4serv.com/checkout?username=X&email=Y&rank=Z (the /checkout URL the user wanted).
 - Tip4Serv TOS + PP links added to a new "Legal" footer group.
+
+---
+Task ID: 31-34
+Agent: main
+Task: Surfaces still green-tinted (fix to neutral), completely new design for 'Why support us' 6 cards AND 'How it works' 3 steps
+
+Work Log:
+- Changed surface tokens in globals.css from green-tinted to NEUTRAL dark (no green hue):
+  - --md-surface: #161B16 → #141517
+  - --md-on-surface: #EAF1E5 → #E8EAED
+  - --md-on-surface-variant: #B7C2B4 → #B0B5BB
+  - --md-outline: #4A5448 → #454A50, --md-outline-variant: #2F382D → #2A2E33
+  - --md-surface-container-lowest: #10140F → #0F1011, -low: #1A1F19 → #191B1D, -container: #20271D → #1F2124, -high: #2A3128 → #292C2F, -highest: #353C33 → #33373B
+  - Also retinted shadcn vars: --background, --card, --popover, --secondary, --muted, --accent, --border, --input, --sidebar (all neutral dark now).
+  - Verified via Agent Browser: body bg = rgb(20, 21, 23) = #141517 (neutral, no green) ✓.
+- Rewrote 'Why support us' features (features.tsx) as a BENTO grid — completely new, not standard cards:
+  - Asymmetric layout: grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 with col-span-2 on items 0 (Instant delivery) and 4 (Real human support).
+  - Each tile = accent-tinted zone (NOT a bordered card): background = linear-gradient(135deg, accent@14, accent@06 70%), border = accent@33.
+  - Large faint background number (01-06) in the accent color, top-right, opacity 0.10.
+  - Icon chip (accent color) + title + body.
+  - Hover: thin accent-colored bar animates across the bottom (width 0 → 100%).
+  - DOM-verified at 1440px: items 0,4 = 566px wide (col-span-2); items 1,2,3,5 = 274px wide. Confirmed asymmetric bento.
+- Rewrote 'How it works' (how-it-works.tsx) as a VERTICAL TIMELINE PANEL — completely new, not standard cards:
+  - ONE unified m3-card (rounded-[28px], overflow-hidden), not 3 separate cards.
+  - Left rail: a vertical gradient line (blue → cyan → teal) with 3 numbered circular nodes (01, 02, 03) sitting on the rail.
+  - Each step row: large circle node (with icon, accent-colored border) on the left + large mono number + title + body on the right.
+  - Steps separated by border-b.
+  - Footer CTA row inside the panel: "Play on SoniicSMP?" + "Go to checkout" tonal button → #checkout.
+  - VLM-confirmed: single unified panel, vertical timeline with left rail + numbered circular nodes, neutral dark background.
+- Lint: `bun run lint` → 0 errors, 0 warnings.
+- Agent Browser + VLM verification (at 1440px viewport):
+  - Body background = rgb(20, 21, 23) = #141517 (NEUTRAL, no green tint) ✓.
+  - Features bento: DOM-confirmed asymmetric (items 0,4 = 566px wide col-span-2; items 1,2,3,5 = 274px). Large faint numbers, distinct accent tints per tile. ✓
+  - How it works: single unified vertical timeline panel with left rail + numbered circular nodes (01/02/03), neutral background. ✓
+
+Stage Summary:
+- All surfaces de-greened → neutral dark (#141517 family). Page bg no longer green-tinted.
+- 'Why support us' = bento grid (asymmetric col-span-2 tiles, accent-tinted zones, faint background numbers, hover accent bar). NOT standard cards.
+- 'How it works' = single unified vertical timeline panel (left rail + numbered circular nodes + step rows). NOT 3 separate cards.
+- Both redesigns VLM/DOM-confirmed.

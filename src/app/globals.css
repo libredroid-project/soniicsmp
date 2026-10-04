@@ -56,17 +56,17 @@
 .dark {
   --radius: 0.75rem;
 
-  /* === Material 3 dark surfaces (green-tinted, flat — no effects) === */
-  --md-surface: #161B16;
-  --md-on-surface: #EAF1E5;
-  --md-on-surface-variant: #B7C2B4;
-  --md-outline: #4A5448;
-  --md-outline-variant: #2F382D;
-  --md-surface-container-lowest: #10140F;
-  --md-surface-container-low: #1A1F19;
-  --md-surface-container: #20271D;
-  --md-surface-container-high: #2A3128;
-  --md-surface-container-highest: #353C33;
+  /* === Material 3 dark surfaces (neutral dark, no green tint) === */
+  --md-surface: #141517;
+  --md-on-surface: #E8EAED;
+  --md-on-surface-variant: #B0B5BB;
+  --md-outline: #454A50;
+  --md-outline-variant: #2A2E33;
+  --md-surface-container-lowest: #0F1011;
+  --md-surface-container-low: #191B1D;
+  --md-surface-container: #1F2124;
+  --md-surface-container-high: #292C2F;
+  --md-surface-container-highest: #33373B;
   --md-scrim: rgba(0, 0, 0, 0.6);
 
   /* === Brand (Minecraft blue — matches the flagship Sonic rank) === */
@@ -112,37 +112,37 @@
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
 
   /* === Map shadcn variables to the dark MC theme === */
-  --background: #161B16;
-  --foreground: #EAF1E5;
-  --card: #20271D;
-  --card-foreground: #EAF1E5;
-  --popover: #20271D;
-  --popover-foreground: #EAF1E5;
+  --background: #141517;
+  --foreground: #E8EAED;
+  --card: #1F2124;
+  --card-foreground: #E8EAED;
+  --popover: #1F2124;
+  --popover-foreground: #E8EAED;
   --primary: #4498DB;
   --primary-foreground: #FFFFFF;
-  --secondary: #2A3128;
-  --secondary-foreground: #EAF1E5;
-  --muted: #2A3128;
-  --muted-foreground: #B7C2B4;
-  --accent: #103A33;
-  --accent-foreground: #A6F5E2;
+  --secondary: #292C2F;
+  --secondary-foreground: #E8EAED;
+  --muted: #292C2F;
+  --muted-foreground: #B0B5BB;
+  --accent: #10304A;
+  --accent-foreground: #A6D4F5;
   --destructive: #F24545;
   --destructive-foreground: #FFFFFF;
-  --border: #2F382D;
-  --input: #2F382D;
+  --border: #2A2E33;
+  --input: #2A2E33;
   --ring: #4498DB;
   --chart-1: #4498DB;
   --chart-2: #00FF79;
   --chart-3: #5FE2C5;
   --chart-4: #77924F;
   --chart-5: #EE2525;
-  --sidebar: #1A1F19;
-  --sidebar-foreground: #EAF1E5;
+  --sidebar: #191B1D;
+  --sidebar-foreground: #E8EAED;
   --sidebar-primary: #4498DB;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #2A3128;
-  --sidebar-accent-foreground: #EAF1E5;
-  --sidebar-border: #2F382D;
+  --sidebar-accent: #292C2F;
+  --sidebar-accent-foreground: #E8EAED;
+  --sidebar-border: #2A2E33;
   --sidebar-ring: #4498DB;
 }
 
