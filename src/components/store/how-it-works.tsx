@@ -56,7 +56,7 @@ export function HowItWorks() {
                   style={{
                     background: `${s.accent}1f`,
                     color: s.accent,
-                    boxShadow: `0 0 24px ${s.accent}22, inset 0 0 0 1px ${s.accent}55`,
+                    border: `1px solid ${s.accent}55`,
                   }}
                 >
                   <s.icon className="w-6 h-6" />

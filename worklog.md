@@ -170,3 +170,46 @@ Stage Summary:
 - Website background is flat dark — zero effects (removed bg-ambient, bg-grid, floating orbs, hero glow, final-cta radial gradient + pixel grid, how-it-works connecting line).
 - Only REAL stats: 4 tiles driven by /api/server-status fetching live mcsrvstat.us data (Online, 24/100 players, version 26.2, MOTD). Fake Discord/supporters numbers removed.
 - Direct-to-checkout flow: user enters Minecraft username + email on the #checkout form on our site → "Continue to Tip4Serv checkout" opens https://soniic.tip4serv.com/product/soniic?username=X&email=Y in a new tab where Tip4Serv's PCI-compliant Stripe/PayPal checkout completes.
+
+---
+Task ID: 21-25
+Agent: main
+Task: Apply user feedback — remove ALL glows, fix the rank cards (broken/ugly), checkout button must auto-go to https://soniic.tip4serv.com/checkout, simple traditional hero with a REAL Minecraft image on the side using half the screen + SoniicSMP wordmark + DC + IP buttons, no dashes/strikethroughs
+
+Work Log:
+- Tested Tip4Serv /checkout URL: returns 302 → /cart. So /checkout is the checkout entry URL (redirects to cart if empty). User explicitly wants this URL — set the form to open it.
+- Searched for a REAL Minecraft image via image-search skill (z-ai image-search). Downloaded 4 candidates (1920x1080 from Reddit/MinecraftHub/Steam). VLM-picked image 5 (MinecraftHub, river+forest+Badlands mountains+blue sky, rated 9/10) as the most authentic and appealing. Copied to public/hero-mc.jpg.
+- Removed ALL glows from globals.css + components:
+  - Removed `text-shadow: 0 0 18px` glow from the mc-wordmark (SoniicWordmark component).
+  - Removed `boxShadow: 0 0 4px ${c}99` from the pixel-block logos in TopAppBar + Footer.
+  - Removed `boxShadow: 0 0 24px ${f.accent}22` from feature icon chips.
+  - Removed `boxShadow: 0 0 24px ${s.accent}22, inset 0 0 0 1px ${s.accent}55` from how-it-works step icon chips (replaced with a plain `border: 1px solid ${s.accent}55`).
+  - The 3D extruded rank "logo" (RankLogo with textShadow 1px/2px/3px extrusion) was removed entirely when I rewrote ranks-showcase.
+- Rewrote `src/components/store/hero.tsx` to a SIMPLE TRADITIONAL two-column hero:
+  - LEFT: real Minecraft image (/hero-mc.jpg, real in-game screenshot) using ~half the screen, aspect 16/10 on mobile / min-h-460px on desktop, plain M3 elevation (no glow).
+  - RIGHT: H1 "SoniicSMP" wordmark (MC gradient letters, no glow), one-line description, three buttons — "View ranks" (filled), "Discord" (tonal), ServerIpCopy.
+  - Removed: the "Server online · Season 3 live" pulse chip, the floating stat chips on the image, the "SEASON 3" rotated badge, the scroll hint, the gradient overlay on the image, the 3 ambient orbs.
+- Rewrote `src/components/store/ranks-showcase.tsx` to fix the broken/ugly cards:
+  - Removed the 3D extruded RankLogo entirely.
+  - Card now: rank name (accent color, plain bold text) + badge (plain bordered chip, no glow) + description + price block + perks container + purchase button.
+  - Prices: NO strikethrough. Old price shown as small "was €X" text next to the bold current price.
+  - Halloween card keeps its dark purple background (theme: "purple" → --md-purple-container).
+- Removed ALL strikethrough (`line-through`) and dashed borders across the codebase:
+  - ranks-showcase: old price → "was €X" small text.
+  - tip4serv-embed: rank selector old price → "was €X"; live catalog card old price → "was €X"; checkout form summary old price → "was €X".
+- Updated checkout URL in `src/components/store/tip4serv-embed.tsx`:
+  - `buildCheckoutUrl()` now returns `https://soniic.tip4serv.com/checkout?username=X&email=Y&rank=Z` (was `/product/soniic?...`). The "Continue to Tip4Serv checkout" button opens this URL in a new tab → Tip4Serv's /checkout (redirects to /cart with params). This is exactly the URL the user requested.
+- Lint: `bun run lint` → 0 errors, 0 warnings.
+- Agent Browser + VLM verification:
+  - Hero: VLM confirms ✓ REAL Minecraft in-game screenshot on the left (blocky voxel, trees/water/terrain/sky), ~half screen; ✓ SoniicSMP wordmark with each letter in its MC color (S blue, o cyan, n-c green, SMP red); ✓ Discord + IP copy buttons; ✓ simple traditional design (no badges, no stat chips, no glow, no Season 3 badge, no scroll hint); ✓ flat dark background with no effects.
+  - Ranks cards: VLM confirms ✓ two cards (Sonic + Halloween); ✓ Halloween dark purple background, Sonic dark green/teal; ✓ simple/clean (no 3D logo, no glow); ✓ prices WITHOUT strikethrough (old price as "was €X" small grey text); ✓ no dashed lines.
+  - Checkout form: VLM confirms ✓ rank selector (Sonic selected, Halloween "SOON"), ✓ Minecraft username + email text fields, ✓ "Continue to Tip4Serv checkout" button, ✓ clean Material 3 with flat surfaces, rounded corners, no glows.
+  - No console errors; GET /, /api/server-status, /api/store all 200.
+
+Stage Summary:
+- All glows removed (wordmark text-shadow, pixel-logo box-shadow, icon-chip box-shadow, 3D extruded rank logo) — design is now flat M3.
+- Rank cards fixed: removed the broken 3D extruded logo; cards are now simple/clean (name + badge + price + perks + button).
+- Checkout button now opens `https://soniic.tip4serv.com/checkout?username=X&email=Y&rank=Z` in a new tab (the exact /checkout URL the user requested; Tip4Serv redirects to /cart with the params).
+- Hero is now a simple traditional two-column layout: REAL Minecraft in-game screenshot (image-search result, MinecraftHub source) on the left using ~half the screen + SoniicSMP wordmark (MC gradient, no glow) + View ranks / Discord / IP copy buttons on the right. No badges, no floating stats, no scroll hint, no pulse dot, no overlay.
+- No strikethrough prices anywhere — old prices shown as plain small "was €X" text.
+- No dashed lines anywhere.

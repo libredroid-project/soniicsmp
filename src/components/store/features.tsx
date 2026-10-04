@@ -70,7 +70,6 @@ export function Features() {
                 style={{
                   background: `${f.accent}1f`,
                   color: f.accent,
-                  boxShadow: `0 0 24px ${f.accent}22`,
                 }}
               >
                 <f.icon className="w-5 h-5" />

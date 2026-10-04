@@ -39,7 +39,6 @@ export function SoniicWordmark({ className, as = "span", glow = true }: Props) {
           key={i}
           style={{
             color: l.color,
-            textShadow: glow ? `0 0 18px ${l.color}66` : undefined,
           }}
         >
           {l.ch}

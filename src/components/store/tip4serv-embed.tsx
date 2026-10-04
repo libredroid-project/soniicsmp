@@ -95,14 +95,14 @@ export function Tip4ServEmbed() {
   const formValid = usernameValid && emailValid && isLive;
 
   // Build the Tip4Serv checkout URL with the user's data as params.
-  // Tip4Serv's product page is the secure checkout entry point.
+  // /checkout is the Tip4Serv checkout entry (redirects to /cart if empty).
   const buildCheckoutUrl = (): string => {
-    const slug = "soniic"; // the live Tip4Serv product slug
     const params = new URLSearchParams();
     if (username) params.set("username", username);
     if (email) params.set("email", email);
+    if (selectedRank) params.set("rank", selectedRank.id);
     const qs = params.toString();
-    return `https://soniic.tip4serv.com/product/${slug}${qs ? `?${qs}` : ""}`;
+    return `https://soniic.tip4serv.com/checkout${qs ? `?${qs}` : ""}`;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -186,8 +186,8 @@ export function Tip4ServEmbed() {
                     </div>
                     <div className="flex items-baseline gap-1.5">
                       {r.originalPrice && (
-                        <span className="text-xs line-through font-mono text-[var(--md-on-surface-variant)]">
-                          {formatPrice(r.originalPrice)}
+                        <span className="text-[10px] font-mono text-[var(--md-on-surface-variant)]">
+                          was {formatPrice(r.originalPrice)}
                         </span>
                       )}
                       <span
@@ -264,18 +264,18 @@ export function Tip4ServEmbed() {
               {isLive ? "You pay:" : "Halloween isn&apos;t on Tip4Serv yet"}
             </span>
             {selectedRank && (
-              <span className="flex items-baseline gap-1.5">
-                {selectedRank.originalPrice && (
-                  <span className="text-sm line-through font-mono text-[var(--md-on-surface-variant)]">
-                    {formatPrice(selectedRank.originalPrice)}
-                  </span>
-                )}
+              <span className="flex items-baseline gap-2">
                 <span
                   className="text-xl font-extrabold font-mono"
                   style={{ color: selectedRank.accent }}
                 >
                   {formatPrice(selectedRank.price)}
                 </span>
+                {selectedRank.originalPrice && (
+                  <span className="text-xs font-mono text-[var(--md-on-surface-variant)]">
+                    was {formatPrice(selectedRank.originalPrice)}
+                  </span>
+                )}
               </span>
             )}
           </div>
@@ -444,8 +444,8 @@ function LiveProductCard({ product }: { product: Tip4ServProduct }) {
           </h4>
           <div className="flex items-baseline gap-2 mt-0.5">
             {product.oldPrice && (
-              <span className="text-xs text-[var(--md-on-surface-variant)] line-through font-mono">
-                {product.oldPrice}
+              <span className="text-[10px] text-[var(--md-on-surface-variant)] font-mono">
+                was {product.oldPrice}
               </span>
             )}
             {product.newPrice && (

@@ -81,7 +81,7 @@ export function TopAppBar() {
                   <span
                     key={i}
                     className="block rounded-[1px]"
-                    style={{ width: 5, height: 5, background: c, boxShadow: `0 0 4px ${c}99` }}
+                    style={{ width: 5, height: 5, background: c }}
                   />
                 ))}
               </span>

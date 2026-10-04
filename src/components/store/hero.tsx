@@ -1,14 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, ArrowDown, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { SoniicWordmark } from "./soniic-wordmark";
 import { ServerIpCopy } from "./server-ip-copy";
-import {
-  DISCORD_URL,
-  MADE_BY,
-  MADE_BY_URL,
-} from "@/lib/store";
+import { DISCORD_URL } from "@/lib/store";
 
 function DiscordIcon({ className }: { className?: string }) {
   return (
@@ -20,35 +16,34 @@ function DiscordIcon({ className }: { className?: string }) {
 
 export function Hero() {
   return (
-    <section
-      id="top"
-      className="relative overflow-hidden pt-10 sm:pt-16 lg:pt-20 pb-12 lg:pb-20"
-    >
-      <div className="container-m3 relative">
-        <div className="grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-12 items-center">
-          {/* Left: copy */}
-          <div className="text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--md-outline-variant)] bg-[var(--md-surface-container)] px-3 py-1.5 text-xs font-medium text-[var(--md-on-surface-variant)] mb-6">
-              <span className="pulse-dot" />
-              Server online
-              <span className="text-[var(--md-outline)]">·</span>
-              <span className="text-[var(--brand)]">Season 3 live</span>
+    <section id="top" className="pt-6 sm:pt-10 lg:pt-14 pb-10 lg:pb-14">
+      <div className="container-m3">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-10 items-stretch">
+          {/* Left: REAL Minecraft image — half the screen on desktop */}
+          <div className="relative aspect-[16/10] lg:aspect-auto lg:min-h-[460px] rounded-2xl overflow-hidden border border-[var(--md-outline-variant)]" style={{ boxShadow: "var(--elev-1)" }}>
+            <Image
+              src="/hero-mc.jpg"
+              alt="SoniicSMP survival world"
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
+            />
+          </div>
+
+          {/* Right: SoniicSMP wordmark + DC + IP buttons — simple, traditional */}
+          <div className="flex flex-col justify-center gap-6 py-2">
+            <div>
+              <SoniicWordmark as="h1" className="text-5xl sm:text-6xl lg:text-7xl" />
             </div>
 
-            <h1 className="font-sans font-medium text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight text-balance">
-              Your{" "}
-              <SoniicWordmark as="span" className="text-4xl sm:text-5xl lg:text-6xl align-baseline" />
-              <br className="hidden sm:block" />
-              <span className="text-[var(--md-on-surface)]"> adventure, supercharged.</span>
-            </h1>
-
-            <p className="mt-5 text-base sm:text-lg text-[var(--md-on-surface-variant)] max-w-xl mx-auto lg:mx-0 text-pretty">
-              Permanent ranks with real perks for the survival server.
-              Pay once, keep it forever — and checkout happens right here on
-              this page through Tip4Serv.
+            <p className="text-base sm:text-lg text-[var(--md-on-surface-variant)] max-w-md text-pretty">
+              The official SoniicSMP store. Pick a rank, enter your details,
+              pay securely via Tip4Serv. Join the survival server at{" "}
+              <span className="font-mono text-[var(--md-on-surface)]">soniicsmp.de</span>.
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               <a href="#ranks" className="m3-btn m3-btn-filled">
                 View ranks
                 <ArrowRight className="w-4 h-4" />
@@ -60,96 +55,11 @@ export function Hero() {
                 className="m3-btn m3-btn-tonal"
               >
                 <DiscordIcon className="w-4 h-4" />
-                Join Discord
+                Discord
               </a>
               <ServerIpCopy />
             </div>
-
-            <p className="mt-6 text-xs text-[var(--md-on-surface-variant)] flex flex-wrap items-center justify-center lg:justify-start gap-x-2 gap-y-1">
-              <span className="inline-flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-[var(--brand)]" />
-                Instant delivery in-game · Tip4Serv secure checkout
-              </span>
-              <span className="text-[var(--md-outline)]">·</span>
-              <a
-                href={MADE_BY_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 hover:text-[var(--brand)] transition-colors"
-              >
-                made by <span className="font-semibold text-[var(--md-on-surface)]">{MADE_BY}</span>
-              </a>
-            </p>
           </div>
-
-          {/* Right: hero visual */}
-          <div className="relative">
-            <div
-              className="relative aspect-[4/5] sm:aspect-[5/4] lg:aspect-[4/5] rounded-[28px] overflow-hidden border border-[var(--md-outline-variant)]"
-              style={{ boxShadow: "var(--elev-3)" }}
-            >
-              <Image
-                src="/hero-bg.png"
-                alt="SoniicSMP survival world at golden hour"
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover"
-              />
-              <div
-                aria-hidden
-                className="absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(to top, rgba(16,20,15,0.95) 0%, rgba(16,20,15,0.45) 40%, rgba(16,20,15,0.1) 100%)",
-                }}
-              />
-              {/* Floating stat chips */}
-              <div className="absolute inset-0 p-5 flex flex-col justify-end gap-3">
-                <div className="flex items-end justify-between gap-3">
-                  <div>
-                    <div className="text-[10px] uppercase tracking-wider text-[var(--md-on-surface-variant)]">
-                      Now live
-                    </div>
-                    <div className="text-xl font-semibold text-white drop-shadow">
-                      <SoniicWordmark as="span" className="text-xl" />
-                    </div>
-                  </div>
-                  <div className="glass-card rounded-xl px-3 py-2 text-right">
-                    <div className="text-[10px] uppercase tracking-wider text-[var(--md-on-surface-variant)]">
-                      Players
-                    </div>
-                    <div className="text-lg font-bold text-[var(--brand)]">
-                      127
-                    </div>
-                  </div>
-                </div>
-                <div className="glass-card rounded-xl px-3 py-2 flex items-center gap-2.5">
-                  <ServerIpCopy variant="row" />
-                </div>
-              </div>
-            </div>
-
-            {/* Decorative corner badge */}
-            <div
-              className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 rotate-3 rounded-2xl px-3 py-2 text-xs font-bold text-[var(--brand-on)] shadow-[var(--elev-3)]"
-              style={{ background: "var(--brand)" }}
-            >
-              SEASON 3
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll hint */}
-        <div className="mt-12 flex justify-center">
-          <a
-            href="#ranks"
-            aria-label="Scroll to ranks"
-            className="inline-flex flex-col items-center gap-1 text-[var(--md-on-surface-variant)] hover:text-[var(--brand)] transition-colors"
-          >
-            <span className="text-[10px] uppercase tracking-wider">Explore the ranks</span>
-            <ArrowDown className="w-4 h-4 animate-bounce" />
-          </a>
         </div>
       </div>
     </section>
