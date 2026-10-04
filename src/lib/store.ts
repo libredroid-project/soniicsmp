@@ -21,7 +21,7 @@ export const TIP4SERV_SHOP_URL = "https://soniic.tip4serv.com/";
 export const TIP4SERV_CHECKOUT_URL = "https://soniic.tip4serv.com/checkout";
 export const TIP4SERV_TOS_URL = "https://soniic.tip4serv.com/terms";
 export const TIP4SERV_PP_URL = "https://soniic.tip4serv.com/privacy";
-export const DISCORD_URL = "https://discord.gg/8dz9yJ7Hfu";
+export const DISCORD_URL = "https://discord.gg/2Ssqjsc8FC";
 export const SERVER_IP = "soniicsmp.de";
 export const SERVER_NAME = "SoniicSMP";
 

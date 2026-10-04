@@ -299,3 +299,38 @@ Stage Summary:
 - 'Why support us' = bento grid (asymmetric col-span-2 tiles, accent-tinted zones, faint background numbers, hover accent bar). NOT standard cards.
 - 'How it works' = single unified vertical timeline panel (left rail + numbered circular nodes + step rows). NOT 3 separate cards.
 - Both redesigns VLM/DOM-confirmed.
+
+---
+Task ID: 35-36
+Agent: main
+Task: Update Discord URL to https://discord.gg/2Ssqjsc8FC and make everything Vercel-deployment-ready
+
+Work Log:
+- Verified the new Discord invite is VALID (not expired like the old one): `https://discord.com/api/v9/invites/2Ssqjsc8FC?with_counts=true` returns invite data, inviter = xiaogame_.
+- Updated `DISCORD_URL` in src/lib/store.ts from `https://discord.gg/8dz9yJ7Hfu` (expired) → `https://discord.gg/2Ssqjsc8FC` (valid). All components import DISCORD_URL from store.ts, so the hero, footer, top-app-bar, and FAQ Discord links all point to the new server automatically.
+- Audited the project for Vercel-readiness:
+  - next.config.ts has `output: "standalone"` — Vercel handles this fine (uses `.next` for deployment, ignores standalone output).
+  - No env vars needed: the webstore is fully self-contained (Discord URL, server IP, Tip4Serv URLs all hardcoded in store.ts). The only .env var is DATABASE_URL (Prisma SQLite, local path), which the webstore does NOT import (verified: no `@/lib/db` or `prisma` imports in any store component, page, layout, or the /api/server-status route). So Vercel deploys without env config.
+  - No hardcoded localhost/127.0.0.1/:3000 in the webstore code (verified via grep).
+  - No `next/image` external-domain usage (the local /hero-mc.jpg uses next/image with fill; external Tip4Serv images used raw <img> but the live catalog was removed, so no external images at all). No `images.remotePatterns` config needed.
+  - /api/server-status route uses standard fetch to mcsrvstat.us with cache:"no-store" + revalidate=60 — fully serverless-compatible on Vercel.
+- Created `vercel.json` (project root):
+  - `framework: "nextjs"` — explicit framework preset.
+  - `buildCommand: "next build"` — Vercel runs a plain next build (NOT the package.json build script with the cp commands, which are for self-hosting standalone output).
+  - `installCommand: "bun install"` — uses bun.
+  - `regions: ["fra1"]` — Frankfurt region for the /api/server-status serverless function (European latency, matches user's Europe/Berlin timezone).
+  - Security headers: x-content-type-options nosniff, x-frame-options SAMEORIGIN, referrer-policy strict-origin-when-cross-origin.
+- Lint: `bun run lint` → 0 errors, 0 warnings.
+- Verified via curl of the served HTML (dev server):
+  - Discord link: `https://discord.gg/2Ssqjsc8FC` ✓ (new valid invite)
+  - Tip4Serv TOS: `https://soniic.tip4serv.com/terms` ✓
+  - Tip4Serv PP: `https://soniic.tip4serv.com/privacy` ✓
+  - Server IP: `soniicsmp.de` ✓
+  - libreDroid attribution present ✓
+  - Page title: "SoniicSMP Store | Minecraft Server Ranks" ✓
+  - Body renders fully (101KB HTML), only benign console messages (React DevTools promo + HMR), 0 errors.
+
+Stage Summary:
+- Discord URL updated to the valid new server: https://discord.gg/2Ssqjsc8FC.
+- Project is Vercel-ready: vercel.json created (framework nextjs, buildCommand next build, installCommand bun install, region fra1, security headers), no env vars required, no localhost refs, no external image config needed, API route is serverless-compatible.
+- To deploy: push to GitHub, import the repo on Vercel, Vercel auto-detects Next.js and uses the vercel.json config. No environment variables to set. Build runs `next build` automatically.
