@@ -4,10 +4,10 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 /**
- * Shared state for the optional Halloween overlay effects
+ * Shared state for the Halloween overlay effects
  * (src/components/store/halloween-effects.tsx).
- * The toggle lives in the top app bar; the preference is persisted
- * per browser in localStorage. Effects default to OFF.
+ * ON by default during the season — the top bar ghost button toggles
+ * them off/on; the preference is persisted per browser in localStorage.
  */
 interface HalloweenState {
   effectsOn: boolean;
@@ -17,7 +17,7 @@ interface HalloweenState {
 export const useHalloweenStore = create<HalloweenState>()(
   persist(
     (set) => ({
-      effectsOn: false,
+      effectsOn: true,
       toggle: () => set((s) => ({ effectsOn: !s.effectsOn })),
     }),
     { name: "soniicsmp-halloween-effects" },

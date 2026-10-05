@@ -399,6 +399,22 @@
 }
 
 /* === Halloween overlay effects (see halloween-effects.tsx) === */
+.hween-tint {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  background:
+    radial-gradient(60vw 60vh at 8% 0%, rgba(255, 107, 0, 0.1), transparent 60%),
+    radial-gradient(60vw 60vh at 100% 100%, rgba(156, 95, 226, 0.12), transparent 60%);
+  animation: hween-tint-pulse 9s ease-in-out infinite;
+}
+
+@keyframes hween-tint-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
 .hween-layer {
   position: fixed;
   inset: 0;
@@ -433,6 +449,100 @@
     transform: translate3d(calc(var(--g-d, 60px) * -0.5), -112vh, 0) rotate(-5deg);
     opacity: 0;
   }
+}
+
+.hween-pumpkin {
+  position: absolute;
+  bottom: -110px;
+  filter: drop-shadow(0 0 10px rgba(255, 107, 0, 0.35));
+  animation: hween-pumpkin-rise linear infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes hween-pumpkin-rise {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-6deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: var(--p-o, 0.5);
+  }
+  50% {
+    transform: translate3d(var(--p-d, 50px), -55vh, 0) rotate(8deg);
+  }
+  92% {
+    opacity: var(--p-o, 0.5);
+  }
+  100% {
+    transform: translate3d(calc(var(--p-d, 50px) * -0.6), -115vh, 0) rotate(-8deg);
+    opacity: 0;
+  }
+}
+
+.hween-bat {
+  position: absolute;
+  left: -80px;
+  color: #0b0c0d;
+  filter: drop-shadow(0 0 6px rgba(156, 95, 226, 0.8));
+  animation: hween-bat-fly linear infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes hween-bat-fly {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  6% {
+    opacity: var(--b-o, 0.5);
+  }
+  25% {
+    transform: translate3d(calc((100vw + 160px) * 0.25), -24px, 0);
+  }
+  50% {
+    transform: translate3d(calc((100vw + 160px) * 0.5), 10px, 0);
+  }
+  75% {
+    transform: translate3d(calc((100vw + 160px) * 0.75), -18px, 0);
+  }
+  94% {
+    opacity: var(--b-o, 0.5);
+  }
+  100% {
+    transform: translate3d(calc(100vw + 160px), 0, 0);
+    opacity: 0;
+  }
+}
+
+.hween-bat-inner {
+  animation: hween-flap 0.32s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes hween-flap {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.55); }
+}
+
+.hween-spider {
+  position: absolute;
+  top: -6px;
+  transform-origin: top center;
+  color: #0b0c0d;
+  filter: drop-shadow(0 0 6px rgba(156, 95, 226, 0.7));
+  animation: hween-swing ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.hween-thread {
+  width: 1px;
+  margin: 0 auto;
+  background: linear-gradient(to bottom, transparent, rgba(232, 234, 237, 0.35));
+}
+
+@keyframes hween-swing {
+  from { transform: rotate(-3.5deg); }
+  to { transform: rotate(3.5deg); }
 }
 
 .hween-chaser {
