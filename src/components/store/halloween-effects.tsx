@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useHalloweenStore, isHalloweenSeason } from "@/lib/halloween-store";
 
 /**
  * Halloween overlay effects:
  *  1. Drifting ghosts floating up across the whole page (pure CSS loop).
  *  2. A ghost that chases the mouse cursor (rAF lerp follow).
  *
- * Only rendered during October (Halloween season) and disabled for
+ * Off by default — toggled from the top app bar (persisted preference).
+ * Only available during October (Halloween season) and disabled for
  * users who prefer reduced motion / have no fine pointer (touch).
  */
 
@@ -32,19 +34,18 @@ const DRIFTING_GHOSTS = [
   { left: "91%", size: 28, duration: 36, delay: 27, opacity: 0.15, drift: 80 },
 ];
 
-function isHalloweenSeason(): boolean {
-  return new Date().getMonth() === 9; // October
-}
-
 export function HalloweenEffects() {
-  const [enabled, setEnabled] = useState(false);
+  const effectsOn = useHalloweenStore((s) => s.effectsOn);
+  const [seasonOk, setSeasonOk] = useState(false);
   const chaserRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!isHalloweenSeason() || reducedMotion) return;
-    setEnabled(true);
+    setSeasonOk(true);
   }, []);
+
+  const enabled = seasonOk && effectsOn;
 
   // Ghost chasing the cursor
   useEffect(() => {

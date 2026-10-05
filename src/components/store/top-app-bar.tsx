@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ShoppingCart, Menu, X } from "lucide-react";
+import { ShoppingCart, Menu, X, Ghost } from "lucide-react";
 import { SoniicWordmark } from "./soniic-wordmark";
 import {
   DISCORD_URL,
   MADE_BY,
   MADE_BY_URL,
 } from "@/lib/store";
+import { useHalloweenStore, isHalloweenSeason } from "@/lib/halloween-store";
 
 const NAV_LINKS = [
   { href: "#ranks", label: "Ranks" },
@@ -42,11 +43,17 @@ function LibreDroidBadge({ compact = false }: { compact?: boolean }) {
 export function TopAppBar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  // Halloween toggle is only offered during October; render it post-mount
+  // so the persisted store value and season check never mismatch SSR.
+  const [seasonal, setSeasonal] = useState(false);
+  const effectsOn = useHalloweenStore((s) => s.effectsOn);
+  const toggleEffects = useHalloweenStore((s) => s.toggle);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
+    if (isHalloweenSeason()) setSeasonal(true);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -109,6 +116,27 @@ export function TopAppBar() {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
+            {seasonal && (
+              <button
+                type="button"
+                onClick={toggleEffects}
+                aria-pressed={effectsOn}
+                aria-label="Toggle Halloween effects"
+                title={effectsOn ? "Halloween effects: on" : "Halloween effects: off"}
+                className="grid place-items-center w-10 h-10 rounded-full transition-colors"
+                style={
+                  effectsOn
+                    ? {
+                        background: "rgba(156, 95, 226, 0.18)",
+                        color: "#FF6B00",
+                        boxShadow: "0 0 14px rgba(255, 107, 0, 0.35)",
+                      }
+                    : { color: "var(--md-on-surface-variant)" }
+                }
+              >
+                <Ghost className="w-5 h-5" />
+              </button>
+            )}
             <a
               href={DISCORD_URL}
               target="_blank"
