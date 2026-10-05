@@ -98,6 +98,10 @@ src/
 
 Issues and pull requests are welcome! For bigger changes, please open an issue first to discuss what you'd like to change.
 
+## 🤖 AI disclosure
+
+Parts of this project were created with the help of an AI coding assistant — **only the Halloween effects** (the drifting ghosts, jack-o'-lanterns, bats, spiders, color tint, cursor ghost and their toggle) were AI-generated. Everything else — design, checkout integration and configuration — was built by hand.
+
 ## 📄 License
 
 This project is licensed under the [GNU GPL v3](LICENSE).
