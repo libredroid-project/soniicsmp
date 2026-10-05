@@ -1,31 +1,31 @@
 # SoniicSMP Store
 
-Das ist der offizielle Store vom **SoniicSMP** Minecraft Server. Spieler suchen sich einen Rank aus, geben ihren Minecraft Namen und ihre Email an und landen dann auf einer sicheren Tip4Serv Kassenseite, wo die Bestellung schon fertig eingetragen ist. Kein eingebettetes Shop Fenster, keine leeren Warenkörbe.
+This is the official store of the **SoniicSMP** Minecraft server. Players pick a rank, type in their Minecraft name and email, and get sent to a secure Tip4Serv checkout page where their order is already filled in. No embedded shop window, no empty carts.
 
 ![License](https://img.shields.io/badge/license-GPL--3.0-blue)
 ![Next.js](https://img.shields.io/badge/Next.js-16-black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38BDF8)
 
-**Live Shop:** [soniic.tip4serv.com](https://soniic.tip4serv.com/) · **Server:** `soniicsmp.de` (Java und Bedrock) · **Discord:** [Komm in die Community](https://discord.gg/2Ssqjsc8FC)
+**Live store:** [soniic.tip4serv.com](https://soniic.tip4serv.com/) · **Server:** `soniicsmp.de` (Java and Bedrock) · **Discord:** [Join the community](https://discord.gg/2Ssqjsc8FC)
 
-## Was kann die Seite
+## What the site does
 
-- Eine Rank Übersicht, die die zwei Ränge (Sonic und Halloween) als Showcase mit Perks und Rabatten zeigt
-- Ein eigener Checkout: eine API Route auf der Seite fragt bei der Tip4Serv Checkout API eine fertig ausgefüllte Bezahlseite an (Stripe, PayPal, Klarna und mehr). Dafür braucht man nicht mal einen API Key, nur die Store ID
-- Live Server Status mit Spielern online, Version und MOTD
-- Halloween Modus 🎃 im Oktober: schwebende Geister, leuchtende Kürbisse, flatternde Fledermäuse, Spinnen an Fäden, ein orangener und lila Farbhauch und ein kleiner Geist, der dem Mauszeiger hinterher fliegt. Der geht von selbst an, wenn Oktober ist, und lässt sich über den Geister Button oben in der Leiste ausmachen
-- Ein dunkles Design im Material 3 Stil, gebaut mit Tailwind CSS und shadcn/ui
-- Die Schriften (Roboto Flex und JetBrains Mono) liegen direkt im Projekt, dadurch hängt der Build nicht von Google Fonts ab
-- Ein paar Security Header über die vercel.json
+- A rank showcase that presents the two ranks (Sonic and Halloween) with their perks and discounts
+- Our own checkout flow: an API route on the site asks the Tip4Serv checkout API for a prefilled payment page (Stripe, PayPal, Klarna and more). You don't even need an API key for that, just the store ID
+- Live server status with players online, version and MOTD
+- Halloween mode 🎃 in October: floating ghosts, glowing pumpkins, flapping bats, spiders on threads, a hint of orange and purple and a little ghost that follows your mouse cursor. It turns itself on when October comes around and you can switch it off with the ghost button in the top bar
+- A dark Material 3 style design, built with Tailwind CSS and shadcn/ui
+- The fonts (Roboto Flex and JetBrains Mono) ship with the project, so builds never depend on Google Fonts
+- A few security headers through vercel.json
 
-## Technik
+## The tech
 
-Next.js 16 mit App Router, TypeScript, Tailwind CSS 4 und shadcn/ui Komponenten. Kleine Zustände (wie der Halloween Schalter) laufen über zustand. Bezahlt wird über Tip4Serv. Prisma mit SQLite liegt im Projekt und ist fertig eingerichtet, benutzt wird es von keiner Route, das ist eher für später da.
+Next.js 16 with the App Router, TypeScript, Tailwind CSS 4 and shadcn/ui components. Small bits of state (like the Halloween switch) run on zustand. Payments go through Tip4Serv. Prisma with SQLite is set up in the project but no route actually uses it yet, it's there for later.
 
-## Selbst ausprobieren
+## Run it yourself
 
-Du brauchst Node.js 20 oder neuer (oder Bun) und npm.
+You need Node.js 20 or newer (or Bun) and npm.
 
 ```bash
 npm install
@@ -33,50 +33,50 @@ cp .env.example .env
 npm run dev
 ```
 
-Dann http://localhost:3000 im Browser öffnen.
+Then open http://localhost:3000 in your browser.
 
-Für Produktion:
+For production:
 
 ```bash
 npm run build
 npm run start
 ```
 
-Der Build kopiert die statischen Dateien mit in den Standalone Output, dadurch kann man den Server auch ohne Vercel selbst hosten. Auf Vercel ist das alles nicht nötig, da reicht es, das Repo zu pushen. Eine `vercel.json` liegt bei, die setzt die Region (fra1) und die Security Header.
+The build also copies the static files into the standalone output, so you can host the server yourself without Vercel. On Vercel none of that is needed, pushing the repo is enough. A `vercel.json` is included, it sets the region (fra1) and the security headers.
 
-## Eigener Shop daraus machen
+## Make it your own store
 
-Fast alles, was du ändern musst, liegt in [`src/lib/store.ts`](src/lib/store.ts). Da stehen die Store ID, die Ränge mit Preisen, Perks und dem Produkt Slug aus deinem Tip4Serv Dashboard. Ein Rank mit `live: false` bekommt einen "soon" Sticker und kann noch nicht gekauft werden. Wie die Checkout Links gebaut werden, kannst du in [`src/app/api/checkout/route.ts`](src/app/api/checkout/route.ts) nachlesen.
+Almost everything you need to change lives in [`src/lib/store.ts`](src/lib/store.ts). That's where you find the store ID, the ranks with prices, perks and the product slug from your Tip4Serv dashboard. A rank with `live: false` gets a "soon" sticker and can't be bought yet. How the checkout links get built is in [`src/app/api/checkout/route.ts`](src/app/api/checkout/route.ts) if you're curious.
 
-## Projektstruktur
+## Project structure
 
 ```
 src/
 ├── app/
-│   ├── api/checkout/route.ts   # baut die Tip4Serv Checkout Links
-│   ├── api/server-status/      # Live Ping zum Minecraft Server
-│   ├── layout.tsx              # Schriften, Meta Daten
-│   ├── page.tsx                # die Store Seite
-│   └── globals.css             # Design Tokens und die Halloween Animationen
-├── components/store/           # Hero, Rank Showcase, Checkout, FAQ, Footer, Halloween Effekte ...
-├── fonts/                      # Roboto Flex und JetBrains Mono als woff2
+│   ├── api/checkout/route.ts   # builds the Tip4Serv checkout links
+│   ├── api/server-status/      # live ping to the Minecraft server
+│   ├── layout.tsx              # fonts, metadata
+│   ├── page.tsx                # the store page
+│   └── globals.css             # design tokens and the halloween animations
+├── components/store/           # hero, rank showcase, checkout, FAQ, footer, halloween effects ...
+├── fonts/                      # Roboto Flex and JetBrains Mono as woff2
 └── lib/
-    ├── store.ts                # Produkt Katalog und Tip4Serv Einstellungen
-    └── halloween-store.ts      # der Halloween Schalter, wird gespeichert
+    ├── store.ts                # product catalog and Tip4Serv settings
+    └── halloween-store.ts      # the halloween switch, gets saved
 ```
 
-## Mitmachen
+## Contributing
 
-Du hast einen Bug gefunden oder willst etwas verbessern? Dann ab damit in ein Issue oder gleich als Pull Request. Wir freuen uns über jede Hilfe.
+Found a bug or want to improve something? Drop it in an issue or open a pull request. Every bit of help is welcome.
 
-## KI Hinweis
+## AI notice
 
-Teile dieses Projekts sind mit Hilfe eines KI Assistenten entstanden. Nur die Halloween Effekte (Geister, Kürbisse, Fledermäuse, Spinnen, der Farbhauch, der Maus Geist und der Schalter dafür) sind so entstanden. Der Rest, also Design, Checkout Anbindung und Konfiguration, ist von Hand gebaut.
+Parts of this project were made with the help of an AI assistant. Only the halloween effects (ghosts, pumpkins, bats, spiders, the color tint, the mouse ghost and the switch for them) came out of an AI session. The rest, so the design, the checkout integration and the configuration, was built by hand.
 
-## Lizenz
+## License
 
-Das Projekt steht unter der [GNU GPL v3](LICENSE). Die mitgelieferten Schriften stehen unter der [SIL Open Font License 1.1](src/fonts/OFL-1.1.txt).
+The project is licensed under the [GNU GPL v3](LICENSE). The bundled fonts are licensed under the [SIL Open Font License 1.1](src/fonts/OFL-1.1.txt).
 
 ---
 
-Gemacht von [libreDroid](https://github.com/libredroid-project) für die SoniicSMP Community. Keine Verbindung zu Mojang oder Microsoft.
+Made by [libreDroid](https://github.com/libredroid-project) for the SoniicSMP community. Not affiliated with Mojang or Microsoft.
