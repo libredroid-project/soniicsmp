@@ -9,17 +9,21 @@
 //                     uploaded screenshot (blue 3D logo, €5 → €4, -20%).
 //   2) "Halloween Rank" — a NEW seasonal rank to be added for October.
 //
-// Payment is handled inline via the Tip4Serv shop embedded as an iframe
-// (see src/components/store/tip4serv-embed.tsx) — Tip4Serv returns NO
-// X-Frame-Options and NO frame-ancestors CSP, so the full secure checkout
-// (Stripe / PayPal / local methods) renders directly on this page.
+// Payment flow: our checkout section collects username & email, then our
+// API route (src/app/api/checkout) POSTs the basket to the Tip4Serv
+// checkout API (no API key required for this endpoint), which returns a
+// pre-filled hosted checkout URL. The user pays there (Stripe / PayPal)
+// and is redirected back to this site afterwards.
 // =========================================================================
 
 export const TIP4SERV_SHOP_URL = "https://soniic.tip4serv.com/";
-// The Sonic Rank product page on Tip4Serv. This is what we embed in the
-// checkout iframe: users add the rank to their cart and pay inside the
-// embed, so items are ALWAYS in the cart before checkout.
+// Sonic Rank product page on Tip4Serv — used as fallback link if the
+// checkout API is unreachable.
 export const TIP4SERV_SONIC_PRODUCT_URL = "https://soniic.tip4serv.com/product/soniic";
+// Tip4Serv public checkout API (https://tip4serv.gitbook.io/tip4serv-api).
+// The /store/checkout endpoint needs NO API key — just the store ID.
+export const TIP4SERV_API_URL = "https://api.tip4serv.com/v1";
+export const TIP4SERV_STORE_ID = 23808;
 export const TIP4SERV_TOS_URL = "https://soniic.tip4serv.com/terms";
 export const TIP4SERV_PP_URL = "https://soniic.tip4serv.com/privacy";
 export const DISCORD_URL = "https://discord.gg/2Ssqjsc8FC";
@@ -56,6 +60,8 @@ export interface Rank {
   featured?: boolean;
   /** Whether this rank is currently live on Tip4Serv. */
   live?: boolean;
+  /** Product slug on Tip4Serv used by the checkout API (live ranks only). */
+  checkoutSlug?: string;
 }
 
 export const ranks: Rank[] = [
@@ -74,6 +80,7 @@ export const ranks: Rank[] = [
     badge: "-20%",
     featured: true,
     live: true,
+    checkoutSlug: "soniic",
     perks: [
       "Sonic kit (diamond gear + enchanted tools)",
       "More /sethome slots",
@@ -141,7 +148,7 @@ export const faqs: FaqItem[] = [
   },
   {
     q: "Is checkout secure? Where is my payment processed?",
-    a: "Yes — the Tip4Serv shop is embedded directly on this page, so you can browse and pay without ever leaving soniicsmp.de. Tip4Serv handles the actual card processing via Stripe and PayPal on their PCI-compliant infrastructure. SoniicSMP and libreDroid never see or store your card details at any point.",
+    a: "Yes — you enter your Minecraft username and email here, then Tip4Serv's secure hosted checkout page handles the actual card processing via Stripe and PayPal on their PCI-compliant infrastructure. SoniicSMP and libreDroid never see or store your card details at any point.",
   },
   {
     q: "Is the Sonic Rank permanent or a subscription?",
