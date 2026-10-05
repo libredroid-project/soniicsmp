@@ -3,55 +3,32 @@
 import { useState } from "react";
 import {
   ShieldCheck,
-  ArrowRight,
-  User,
-  Mail,
   CreditCard,
+  ExternalLink,
+  Ghost,
   Check,
 } from "lucide-react";
 import {
   ranks,
   formatPrice,
   getDiscount,
-  TIP4SERV_CHECKOUT_URL,
+  TIP4SERV_SONIC_PRODUCT_URL,
 } from "@/lib/store";
 
 /**
- * Checkout section. The user enters ALL their data on this website
- * (rank, Minecraft username, email), then we take them straight to the
- * Tip4Serv /checkout URL where secure Stripe / PayPal payment completes.
+ * Checkout section — the Tip4Serv shop is embedded directly as an iframe.
+ * The user picks a rank here, adds it to the cart and pays INSIDE the
+ * embed, so the cart always contains the item before checkout.
+ * (Passing rank/username/email as query params to /checkout does NOT
+ * work — Tip4Serv ignores them and the cart stays empty.)
  */
 export function Tip4ServEmbed() {
   const [selectedRankId, setSelectedRankId] = useState<string>(
     ranks.find((r) => r.live)?.id ?? ranks[0].id,
   );
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
 
   const selectedRank = ranks.find((r) => r.id === selectedRankId);
   const isLive = selectedRank?.live ?? false;
-
-  const usernameValid = /^[a-zA-Z0-9_]{3,16}$/.test(username);
-  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const formValid = usernameValid && emailValid && isLive;
-
-  // Build the Tip4Serv /checkout URL with the user's data as params.
-  const buildCheckoutUrl = (): string => {
-    const params = new URLSearchParams();
-    if (username) params.set("username", username);
-    if (email) params.set("email", email);
-    if (selectedRank) params.set("rank", selectedRank.id);
-    const qs = params.toString();
-    return `${TIP4SERV_CHECKOUT_URL}${qs ? `?${qs}` : ""}`;
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    if (!formValid) return;
-    window.open(buildCheckoutUrl(), "_blank", "noopener,noreferrer");
-  };
 
   return (
     <section id="checkout" className="py-12 lg:py-20 scroll-mt-20">
@@ -62,195 +39,133 @@ export function Tip4ServEmbed() {
             Checkout
           </span>
           <h2 className="mt-2 text-3xl sm:text-4xl font-medium tracking-tight text-balance">
-            Enter your details, pay on Tip4Serv.
+            Pick a rank, pay right here.
           </h2>
           <p className="mt-3 text-[var(--md-on-surface-variant)] text-pretty">
-            Pick your rank, enter your Minecraft username &amp; email here, and
-            we&apos;ll take you straight to the Tip4Serv secure checkout to
-            complete payment.
+            Choose your rank below — the official Tip4Serv shop opens right
+            here. Add it to the cart, enter your Minecraft username &amp; email,
+            and check out securely without leaving this page.
           </p>
         </header>
 
-        <form
-          onSubmit={handleSubmit}
-          className="m3-card rounded-[28px] p-6 sm:p-8 max-w-2xl mx-auto flex flex-col gap-6"
-          noValidate
+        {/* Rank pills */}
+        <div
+          className="flex flex-wrap items-center justify-center gap-2 mb-6"
+          role="tablist"
+          aria-label="Choose your rank"
         >
-          {/* Rank selector */}
-          <fieldset>
-            <legend className="text-sm font-medium text-[var(--md-on-surface)] mb-3">
-              Choose your rank
-            </legend>
-            <div className="grid sm:grid-cols-2 gap-3">
-              {ranks.map((r) => {
-                const selected = r.id === selectedRankId;
-                const accent = r.accent;
-                const accent2 = r.accent2 ?? r.accent;
-                const isPurple = r.theme === "purple";
-                const discount = getDiscount(r);
-                return (
-                  <label
-                    key={r.id}
-                    className={`relative flex flex-col gap-1 p-4 rounded-2xl border cursor-pointer transition-all ${
-                      selected
-                        ? "border-[var(--brand)] bg-[var(--brand-container)]"
-                        : "border-[var(--md-outline-variant)] hover:border-[var(--md-outline)]"
-                    }`}
-                    style={
-                      isPurple ? { background: "var(--md-purple-surface)" } : undefined
-                    }
-                  >
-                    <input
-                      type="radio"
-                      name="rank"
-                      value={r.id}
-                      checked={selected}
-                      onChange={() => setSelectedRankId(r.id)}
-                      className="sr-only"
-                    />
-                    <div className="flex items-center justify-between gap-2">
-                      <span
-                        className="font-bold text-base"
-                        style={{ color: accent }}
-                      >
-                        {r.name}
-                      </span>
-                      {r.live === false && (
-                        <span className="text-[9px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded-full bg-[var(--md-surface-container-highest)] text-[var(--md-on-surface-variant)]">
-                          soon
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex items-baseline gap-1.5">
-                      {r.originalPrice && (
-                        <span className="text-[10px] font-mono text-[var(--md-on-surface-variant)]">
-                          was {formatPrice(r.originalPrice)}
-                        </span>
-                      )}
-                      <span
-                        className="text-lg font-extrabold font-mono"
-                        style={{ color: accent2 }}
-                      >
-                        {formatPrice(r.price)}
-                      </span>
-                      {discount && (
-                        <span className="text-[9px] font-mono text-[var(--brand)]">
-                          {discount}% off
-                        </span>
-                      )}
-                    </div>
-                    {selected && (
-                      <span
-                        className="absolute top-3 right-3 grid place-items-center w-5 h-5 rounded-full"
-                        style={{ background: "var(--brand)", color: "var(--brand-on)" }}
-                      >
-                        <Check className="w-3.5 h-3.5" />
-                      </span>
-                    )}
-                  </label>
-                );
-              })}
-            </div>
-          </fieldset>
-
-          {/* Username field */}
-          <div className="m3-text-field">
-            <input
-              id="mc-username"
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder=" "
-              required
-              autoComplete="username"
-              aria-invalid={submitted && !usernameValid}
-            />
-            <label htmlFor="mc-username">
-              <User className="w-3.5 h-3.5 inline mr-1 -mt-0.5" />
-              Minecraft username
-            </label>
-          </div>
-          {submitted && !usernameValid && (
-            <p className="text-xs text-[var(--md-error)] -mt-4">
-              Enter a valid Minecraft username (3 to 16 characters, letters, numbers, underscores).
-            </p>
-          )}
-
-          {/* Email field */}
-          <div className="m3-text-field">
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder=" "
-              required
-              autoComplete="email"
-              aria-invalid={submitted && !emailValid}
-            />
-            <label htmlFor="email">
-              <Mail className="w-3.5 h-3.5 inline mr-1 -mt-0.5" />
-              Email address
-            </label>
-          </div>
-          {submitted && !emailValid && (
-            <p className="text-xs text-[var(--md-error)] -mt-4">
-              Enter a valid email address. Your receipt &amp; rank delivery go here.
-            </p>
-          )}
-
-          {/* Summary line */}
-          <div className="flex items-center justify-between gap-3 px-1">
-            <span className="text-sm text-[var(--md-on-surface-variant)]">
-              {isLive ? "You pay:" : "Halloween isn't on Tip4Serv yet"}
-            </span>
-            {selectedRank && (
-              <span className="flex items-baseline gap-2">
-                <span
-                  className="text-xl font-extrabold font-mono"
-                  style={{ color: selectedRank.accent }}
-                >
-                  {formatPrice(selectedRank.price)}
+          {ranks.map((r) => {
+            const selected = r.id === selectedRankId;
+            const discount = getDiscount(r);
+            return (
+              <button
+                key={r.id}
+                type="button"
+                role="tab"
+                aria-selected={selected}
+                onClick={() => setSelectedRankId(r.id)}
+                className={`m3-btn ${selected ? "m3-btn-filled" : "m3-btn-tonal"}`}
+                style={
+                  selected ? { background: r.accent, color: "#0F1011" } : undefined
+                }
+              >
+                {selected && <Check className="w-4 h-4" />}
+                {r.name}
+                <span className="font-mono text-xs font-bold">
+                  {formatPrice(r.price)}
                 </span>
-                {selectedRank.originalPrice && (
-                  <span className="text-xs font-mono text-[var(--md-on-surface-variant)]">
-                    was {formatPrice(selectedRank.originalPrice)}
+                {discount && (
+                  <span className="text-[10px] font-mono opacity-80">
+                    -{discount}%
                   </span>
                 )}
+                {r.live === false && (
+                  <span className="text-[9px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded-full bg-black/20">
+                    soon
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {isLive ? (
+          <div className="max-w-4xl mx-auto">
+            <div
+              className="m3-card rounded-[28px] overflow-hidden"
+              style={{ boxShadow: "var(--elev-1)" }}
+            >
+              {/* Embed header bar */}
+              <div className="flex items-center justify-between gap-3 px-5 py-3 border-b border-[var(--md-outline-variant)] bg-[var(--md-surface-container-low)]">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span
+                    className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                    style={{ background: selectedRank?.accent }}
+                  />
+                  <span className="text-sm font-medium truncate">
+                    {selectedRank?.name} — Tip4Serv Shop
+                  </span>
+                </div>
+                <a
+                  href={TIP4SERV_SONIC_PRODUCT_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-[var(--md-on-surface-variant)] hover:text-[var(--md-on-surface)] inline-flex items-center gap-1 flex-shrink-0"
+                >
+                  In neuem Tab öffnen
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+
+              {/* The real Tip4Serv shop — cart & payment happen here */}
+              <iframe
+                src={TIP4SERV_SONIC_PRODUCT_URL}
+                title="Tip4Serv shop — add your rank to the cart and check out"
+                className="w-full block bg-white"
+                style={{ height: "min(760px, 80vh)", border: "0" }}
+                loading="lazy"
+                allow="payment *"
+              />
+            </div>
+
+            <p className="mt-4 text-xs text-center text-[var(--md-on-surface-variant)] flex items-center justify-center gap-1.5">
+              <ShieldCheck className="w-3.5 h-3.5 text-[var(--brand)]" />
+              Add the rank to the cart inside the shop, then check out. Card
+              details are handled on Tip4Serv&apos;s PCI-compliant checkout — we
+              never see them.
+            </p>
+          </div>
+        ) : (
+          /* Not-yet-live rank panel */
+          <div className="m3-card rounded-[28px] p-10 max-w-2xl mx-auto flex flex-col items-center gap-4 text-center">
+            <span
+              className="grid place-items-center w-14 h-14 rounded-2xl"
+              style={{
+                background: `${selectedRank?.accent}1f`,
+                color: selectedRank?.accent,
+              }}
+            >
+              <Ghost className="w-7 h-7" />
+            </span>
+            <h3 className="text-xl font-bold" style={{ color: selectedRank?.accent }}>
+              {selectedRank?.name} is almost here
+            </h3>
+            <p className="text-sm text-[var(--md-on-surface-variant)] max-w-md text-pretty">
+              The Halloween Rank isn&apos;t on the Tip4Serv shop yet. It drops
+              later this October — until then you can grab the{" "}
+              <strong className="text-[var(--md-on-surface)]">Sonic Rank</strong>{" "}
+              in the tab above and get every base perk now.
+            </p>
+            <span className="font-mono text-2xl font-extrabold" style={{ color: selectedRank?.accent2 }}>
+              {selectedRank ? formatPrice(selectedRank.price) : ""}
+            </span>
+            {selectedRank?.originalPrice && (
+              <span className="text-xs font-mono text-[var(--md-on-surface-variant)] -mt-3">
+                was {formatPrice(selectedRank.originalPrice)}
               </span>
             )}
           </div>
-
-          {/* Submit */}
-          <button
-            type="submit"
-            disabled={!isLive}
-            className="m3-btn m3-btn-filled w-full"
-          >
-            {isLive ? (
-              <>
-                Continue to Tip4Serv checkout
-                <ArrowRight className="w-4 h-4" />
-              </>
-            ) : (
-              "Halloween drops soon. Watch Discord"
-            )}
-          </button>
-
-          {!isLive && (
-            <p className="text-xs text-center text-[var(--md-on-surface-variant)]">
-              The Halloween Rank isn&apos;t on the Tip4Serv shop yet. Select{" "}
-              <strong className="text-[var(--md-on-surface)]">Sonic Rank</strong>{" "}
-              to check out now.
-            </p>
-          )}
-
-          <p className="text-[11px] text-center text-[var(--md-on-surface-variant)] flex items-center justify-center gap-1.5">
-            <ShieldCheck className="w-3.5 h-3.5 text-[var(--brand)]" />
-            Card details are handled on Tip4Serv&apos;s PCI-compliant checkout.
-            We never see them.
-          </p>
-        </form>
+        )}
       </div>
     </section>
   );

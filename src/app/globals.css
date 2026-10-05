@@ -398,6 +398,65 @@
   .text-pretty { text-wrap: pretty; }
 }
 
+/* === Halloween overlay effects (see halloween-effects.tsx) === */
+.hween-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hween-ghost {
+  position: absolute;
+  bottom: -90px;
+  color: #e8eaed;
+  animation: hween-drift linear infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes hween-drift {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-4deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--g-o, 0.14);
+  }
+  50% {
+    transform: translate3d(var(--g-d, 60px), -55vh, 0) rotate(6deg);
+  }
+  90% {
+    opacity: var(--g-o, 0.14);
+  }
+  100% {
+    transform: translate3d(calc(var(--g-d, 60px) * -0.5), -112vh, 0) rotate(-5deg);
+    opacity: 0;
+  }
+}
+
+.hween-chaser {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  width: 52px;
+  color: #e8eaed;
+  pointer-events: none;
+  filter: drop-shadow(0 0 14px rgba(156, 95, 226, 0.6));
+  transition: opacity 0.6s ease;
+  will-change: transform;
+}
+
+.hween-chaser-bob {
+  animation: hween-bob 1.6s ease-in-out infinite;
+}
+
+@keyframes hween-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

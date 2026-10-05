@@ -13,7 +13,7 @@ const FEATURES = [
   {
     icon: Shield,
     title: "Pay inline on this page",
-    body: "Enter your details here and go straight to Tip4Serv's secure Stripe / PayPal checkout.",
+    body: "The official Tip4Serv shop is embedded right here — add your rank to the cart and pay via Stripe / PayPal without leaving the site.",
     accent: "#5FE2C5",
     span: "",
   },

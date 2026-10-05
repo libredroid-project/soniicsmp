@@ -16,9 +16,10 @@
 // =========================================================================
 
 export const TIP4SERV_SHOP_URL = "https://soniic.tip4serv.com/";
-// /checkout redirects (302) to /cart on Tip4Serv; we open this URL with the
-// user's username/email/rank as query params so the data flows to Tip4Serv.
-export const TIP4SERV_CHECKOUT_URL = "https://soniic.tip4serv.com/checkout";
+// The Sonic Rank product page on Tip4Serv. This is what we embed in the
+// checkout iframe: users add the rank to their cart and pay inside the
+// embed, so items are ALWAYS in the cart before checkout.
+export const TIP4SERV_SONIC_PRODUCT_URL = "https://soniic.tip4serv.com/product/soniic";
 export const TIP4SERV_TOS_URL = "https://soniic.tip4serv.com/terms";
 export const TIP4SERV_PP_URL = "https://soniic.tip4serv.com/privacy";
 export const DISCORD_URL = "https://discord.gg/2Ssqjsc8FC";

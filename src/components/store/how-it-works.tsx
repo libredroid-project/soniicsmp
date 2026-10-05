@@ -13,8 +13,8 @@ const STEPS = [
   },
   {
     icon: CreditCard,
-    title: "Enter your details here",
-    body: "Fill in your Minecraft username & email on the checkout form below. We pass them to Tip4Serv and take you straight to secure Stripe / PayPal checkout.",
+    title: "Add to cart & pay",
+    body: "The Tip4Serv shop below is embedded live — add your rank to the cart, fill in your Minecraft username & email and pay via Stripe / PayPal right here.",
     accent: "#52BDD0",
     n: "02",
   },

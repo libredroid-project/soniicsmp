@@ -22,8 +22,8 @@ export function Hero() {
           {/* Left: REAL Minecraft image — half the screen on desktop */}
           <div className="relative aspect-[16/10] lg:aspect-auto lg:min-h-[460px] rounded-2xl overflow-hidden border border-[var(--md-outline-variant)]" style={{ boxShadow: "var(--elev-1)" }}>
             <Image
-              src="/hero-mc.jpg"
-              alt="SoniicSMP survival world"
+              src="/hero-mc.png"
+              alt="Players gathered at the SoniicSMP spawn with Halloween and special crates"
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"
