@@ -45,6 +45,8 @@ const FOOTER_GROUPS = [
   {
     title: "Legal",
     links: [
+      { label: "Imprint", href: "/imprint" },
+      { label: "Privacy Policy", href: "/privacy" },
       { label: "Tip4Serv Terms (TOS)", href: TIP4SERV_TOS_URL, external: true },
       { label: "Tip4Serv Privacy (PP)", href: TIP4SERV_PP_URL, external: true },
       { label: "Open Tip4Serv shop", href: TIP4SERV_SHOP_URL, external: true },
