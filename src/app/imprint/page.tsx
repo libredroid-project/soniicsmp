@@ -46,14 +46,24 @@ export default function ImprintPage() {
               </p>
             </Section>
 
+            <Section title="Note on legal capacity">
+              <p>
+                The operator of this website is a minor under German law
+                (§ 106 BGB, beschränkte Geschäftsfähigkeit). Legal
+                responsibility for the operation of this service is jointly
+                held by the legal guardians. They can be reached via the
+                contact address below.
+              </p>
+            </Section>
+
             <Section title="Contact">
               <p>
                 Email:{" "}
                 <a
-                  href="mailto:support@host.kodanetwork.eu"
+                  href="mailto:contact@kodaserv.eu"
                   className="text-[var(--brand)] hover:underline"
                 >
-                  support@host.kodanetwork.eu
+                  contact@kodaserv.eu
                 </a>
                 <br />
                 Website:{" "}
