@@ -1,19 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  ranks,
-  TIP4SERV_API_URL,
-  TIP4SERV_STORE_ID,
-} from "@/lib/store";
+import { RANKS, SITE } from "@/lib/site-config";
 
 /**
- * POST /api/checkout — creates a Tip4Serv checkout session for a rank.
+ * POST /api/checkout: creates a Tip4Serv checkout session for a rank.
  *
- * Forwards the basket to the public Tip4Serv checkout API (no API key
- * required for this endpoint) and returns the pre-filled hosted checkout
- * URL the user is redirected to. Rank id and product slug are resolved
- * server-side so the endpoint can't be used as an open proxy for
- * arbitrary products, and redirect URLs are derived from the request
- * origin, never from the client body.
+ * The player fills in everything on this site (rank, Minecraft username,
+ * email). We forward the basket to the public Tip4Serv checkout API (no API
+ * key required for this endpoint) and return the pre-filled hosted checkout
+ * URL the user is redirected to. Tip4Serv only handles the payment itself
+ * (Stripe / PayPal / Klarna). Rank ids and product slugs are resolved
+ * server-side so this endpoint can't be used as an open proxy for arbitrary
+ * products, and redirect URLs are derived from the request origin, never
+ * from the client body.
  */
 export async function POST(request: NextRequest) {
   let body: { rankId?: string; username?: string; email?: string };
@@ -25,8 +23,8 @@ export async function POST(request: NextRequest) {
 
   const username = (body.username ?? "").trim();
   const email = (body.email ?? "").trim();
+  const rank = RANKS.find((r) => r.id === body.rankId);
 
-  const rank = ranks.find((r) => r.id === body.rankId);
   if (!rank || !rank.live || !rank.checkoutSlug) {
     return NextResponse.json(
       { error: "This rank is not available for checkout yet." },
@@ -35,7 +33,10 @@ export async function POST(request: NextRequest) {
   }
   if (!/^[a-zA-Z0-9_]{3,16}$/.test(username)) {
     return NextResponse.json(
-      { error: "Enter a valid Minecraft username (3–16 letters, numbers or underscores)." },
+      {
+        error:
+          "Enter a valid Minecraft username (3 to 16 letters, numbers or underscores).",
+      },
       { status: 400 },
     );
   }
@@ -47,10 +48,10 @@ export async function POST(request: NextRequest) {
   }
 
   const origin = request.nextUrl.origin;
-  const query = new URLSearchParams({ store: String(TIP4SERV_STORE_ID) });
+  const query = new URLSearchParams({ store: String(SITE.tip4serv.storeId) });
 
   try {
-    const res = await fetch(`${TIP4SERV_API_URL}/store/checkout?${query}`, {
+    const res = await fetch(`${SITE.tip4serv.apiUrl}/store/checkout?${query}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       cache: "no-store",
@@ -62,7 +63,12 @@ export async function POST(request: NextRequest) {
         redirect_canceled_checkout: `${origin}/#checkout`,
       }),
     });
-    const data = (await res.json().catch(() => null)) as { url?: string; error?: string } | null;
+
+    const data = (await res.json().catch(() => null)) as {
+      url?: string;
+      error?: string;
+    } | null;
+
     if (!res.ok || !data?.url) {
       return NextResponse.json(
         {

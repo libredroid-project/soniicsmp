@@ -1,6 +1,6 @@
 # SoniicSMP Store
 
-This is the official store of the **SoniicSMP** Minecraft server. Players pick a rank, type in their Minecraft name and email, and get sent to a secure Tip4Serv checkout page where their order is already filled in. No embedded shop window, no empty carts.
+The official store of the **SoniicSMP** Minecraft server. Players pick a rank, type in their Minecraft name and email, and get sent to a secure Tip4Serv checkout page where their order is already filled in. No shop window inside the page, no empty carts.
 
 ![License](https://img.shields.io/badge/license-GPL--3.0-blue)
 ![Next.js](https://img.shields.io/badge/Next.js-16-black)
@@ -11,24 +11,24 @@ This is the official store of the **SoniicSMP** Minecraft server. Players pick a
 
 ## What the site does
 
-- A rank showcase that presents the two ranks (Sonic and Halloween) with their perks and discounts
-- Our own checkout flow: an API route on the site asks the Tip4Serv checkout API for a prefilled payment page (Stripe, PayPal, Klarna and more). You don't even need an API key for that, just the store ID
-- Live server status with players online, version and MOTD
-- Halloween mode 🎃 in October: floating ghosts, glowing pumpkins, flapping bats, spiders on threads, a hint of orange and purple and a little ghost that follows your mouse cursor. It turns itself on when October comes around and you can switch it off with the ghost button in the top bar
-- A dark Material 3 style design, built with Tailwind CSS and shadcn/ui
-- The fonts (Roboto Flex and JetBrains Mono) ship with the project, so builds never depend on Google Fonts
+- A minimal dark storefront: hero, features, how it works, the two ranks and a FAQ, all in one page
+- A rank showcase for the Sonic Rank and the seasonal Halloween Rank with perks, prices and discount badges
+- Our own checkout: an API route asks the Tip4Serv checkout API for a prefilled payment page (Stripe, PayPal, Klarna and more). No API key needed for that, just the store id
+- Live server status card with players online, version and MOTD
+- Small motion details: reveal on scroll, a tilt effect on cards, a pixel canvas in the call to action and smooth scrolling with Lenis
+- Self hosted fonts (Inter and Caveat), so the build never depends on Google Fonts
 - A few security headers through vercel.json
 
 ## The tech
 
-Next.js 16 with the App Router, TypeScript, Tailwind CSS 4 and shadcn/ui components. Small bits of state (like the Halloween switch) run on zustand. Payments go through Tip4Serv. Prisma with SQLite is set up in the project but no route actually uses it yet, it's there for later.
+Next.js 16 with the App Router, TypeScript, Tailwind CSS 4 and shadcn/ui. Motion comes from framer-motion and Lenis. Payments go through Tip4Serv. Prisma with SQLite is set up in the project but no route uses it yet, it is there for later.
 
 ## Run it yourself
 
-You need Node.js 20 or newer (or Bun) and npm.
+You need Node.js 20 or newer and npm.
 
 ```bash
-npm install
+npm ci
 cp .env.example .env
 npm run dev
 ```
@@ -42,11 +42,13 @@ npm run build
 npm run start
 ```
 
-The build also copies the static files into the standalone output, so you can host the server yourself without Vercel. On Vercel none of that is needed, pushing the repo is enough. A `vercel.json` is included, it sets the region (fra1) and the security headers.
+The build also copies the static files into the standalone output, so you can host the server yourself without Vercel. On Vercel none of that is needed, pushing the repo is enough. The included vercel.json sets the region (fra1), the install command (npm ci) and the security headers.
 
 ## Make it your own store
 
-Almost everything you need to change lives in [`src/lib/store.ts`](src/lib/store.ts). That's where you find the store ID, the ranks with prices, perks and the product slug from your Tip4Serv dashboard. A rank with `live: false` gets a "soon" sticker and can't be bought yet. How the checkout links get built is in [`src/app/api/checkout/route.ts`](src/app/api/checkout/route.ts) if you're curious.
+Almost everything you need to change lives in [`src/lib/site-config.ts`](src/lib/site-config.ts). That is where the store id, the ranks with prices, perks and the product slug from your Tip4Serv dashboard sit, plus the Discord link and the server IP. A rank with `live: false` gets a "soon" sticker and can not be bought yet. How the checkout links get built is in [`src/app/api/checkout/route.ts`](src/app/api/checkout/route.ts).
+
+The legal pages live in `src/app/imprint` and `src/app/privacy`. If you run your own store, put your own name, address and email in there before you go live.
 
 ## Project structure
 
@@ -55,14 +57,18 @@ src/
 ├── app/
 │   ├── api/checkout/route.ts   # builds the Tip4Serv checkout links
 │   ├── api/server-status/      # live ping to the Minecraft server
+│   ├── imprint/                # imprint (§ 5 DDG)
+│   ├── privacy/                # privacy policy
 │   ├── layout.tsx              # fonts, metadata
 │   ├── page.tsx                # the store page
-│   └── globals.css             # design tokens and the halloween animations
-├── components/store/           # hero, rank showcase, checkout, FAQ, footer, halloween effects ...
-├── fonts/                      # Roboto Flex and JetBrains Mono as woff2
+│   └── globals.css             # design tokens
+├── components/
+│   ├── site/                   # header, sections, checkout form, motion helpers
+│   └── ui/                     # shadcn/ui primitives
+├── fonts/                      # Inter and Caveat as woff2
 └── lib/
-    ├── store.ts                # product catalog and Tip4Serv settings
-    └── halloween-store.ts      # the halloween switch, gets saved
+    ├── site-config.ts          # product catalog and Tip4Serv settings
+    └── motd.ts                 # MOTD parsing helpers
 ```
 
 ## Contributing
@@ -71,7 +77,7 @@ Found a bug or want to improve something? Drop it in an issue or open a pull req
 
 ## AI notice
 
-Parts of this project were made with the help of an AI assistant. Only the halloween effects (ghosts, pumpkins, bats, spiders, the color tint, the mouse ghost and the switch for them) came out of an AI session. The rest, so the design, the checkout integration and the configuration, was built by hand.
+Parts of this project were made with the help of an AI assistant. Design, copy and configuration were reviewed and finished by hand before going live.
 
 ## License
 

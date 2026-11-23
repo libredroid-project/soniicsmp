@@ -1,33 +1,50 @@
-import { TopAppBar } from "@/components/store/top-app-bar";
-import { Hero } from "@/components/store/hero";
-import { StatsBar } from "@/components/store/stats-bar";
-import { Features } from "@/components/store/features";
-import { HowItWorks } from "@/components/store/how-it-works";
-import { RanksShowcase } from "@/components/store/ranks-showcase";
-import { CheckoutSection } from "@/components/store/checkout-section";
-import { Faq } from "@/components/store/faq";
-import { FinalCta } from "@/components/store/final-cta";
-import { Footer } from "@/components/store/footer";
-import { HalloweenEffects } from "@/components/store/halloween-effects";
+import { SiteHeader } from "@/components/site/site-header";
+import { CheckoutForm } from "@/components/site/checkout-form";
+import { RevealGroup } from "@/components/site/reveal";
+import {
+  CtaSection,
+  FaqSection,
+  FeaturesSection,
+  Hero,
+  HowItWorksSection,
+  RanksSection,
+  SiteFooter,
+} from "@/components/site/sections";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <HalloweenEffects />
-      <TopAppBar />
-
-      <main className="flex-1 flex flex-col">
+    <div className="flex min-h-svh flex-col">
+      <SiteHeader />
+      <main className="flex-1">
         <Hero />
-        <StatsBar />
-        <Features />
-        <HowItWorks />
-        <RanksShowcase />
-        <CheckoutSection />
-        <Faq />
-        <FinalCta />
+        <FeaturesSection />
+        <HowItWorksSection />
+        <RanksSection />
+        <section
+          id="checkout"
+          className="mx-auto max-w-6xl scroll-mt-24 px-6 py-28"
+        >
+          <RevealGroup>
+          <div className="reveal mx-auto max-w-xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              Checkout.
+            </h2>
+            <p className="mt-4 text-lg leading-relaxed text-dim">
+              Fill in everything right here: your rank, Minecraft username and
+              email. Tip4Serv only handles the payment itself on its secure
+              checkout (Stripe / PayPal), pre-filled, and right back here once
+              you&apos;re done.
+            </p>
+          </div>
+          <div className="reveal mt-16 [animation-delay:120ms]">
+            <CheckoutForm />
+          </div>
+          </RevealGroup>
+        </section>
+        <FaqSection />
+        <CtaSection />
       </main>
-
-      <Footer />
+      <SiteFooter />
     </div>
   );
 }

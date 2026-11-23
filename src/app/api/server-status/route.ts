@@ -1,99 +1,64 @@
 import { NextResponse } from "next/server";
 
-// =========================================================================
-// SoniicSMP — Real Minecraft server status API
-// =========================================================================
-// Fetches the LIVE status of soniicsmp.de via the public mcsrvstat.us API
-// (SLP ping). Returns only real, verifiable data — no fake numbers.
-//
-// The frontend StatsBar uses this to show: online status, real player count
-// (X/Y), server version and the live MOTD.
-// =========================================================================
+/**
+ * Server status proxy: pings mcsrvstat.us for soniicsmp.de.
+ * Cached for 60s so the client can poll without hammering the API.
+ * Returns the raw §-coded MOTD + favicon so the server-list entry
+ * can render the real, colored MOTD exactly like Minecraft does.
+ */
 
-export const revalidate = 60; // refresh at most once per minute
+type McSrvStat = {
+  online?: boolean;
+  players?: { online?: number; max?: number };
+  version?: string;
+  motd?: { clean?: string[]; raw?: string[] };
+  icon?: string;
+};
 
-export interface ServerStatus {
-  online: boolean;
-  host: string;
-  ip: string | null;
-  port: number | null;
-  motd: string | null;
-  playersOnline: number;
-  playersMax: number;
-  version: string | null;
-  icon: string | null;
-  fetchedAt: string;
-}
+let cache: { at: number; data: unknown } | null = null;
+const TTL = 60_000;
+
+const OFFLINE = {
+  online: false,
+  players: { online: 0, max: 0 },
+  version: null,
+  motd: null,
+  motdRaw: [],
+  icon: null,
+};
 
 export async function GET() {
-  const host = "soniicsmp.de";
-  const upstream = `https://api.mcsrvstat.us/3/${host}`;
+  const now = Date.now();
+  if (cache && now - cache.at < TTL) {
+    return NextResponse.json(cache.data);
+  }
 
   try {
-    const res = await fetch(upstream, {
-      headers: { Accept: "application/json" },
-      cache: "no-store",
+    const res = await fetch("https://api.mcsrvstat.us/3/soniicsmp.de", {
+      next: { revalidate: 60 },
+      headers: { "User-Agent": "SoniicSMP-Store/1.0" },
+      signal: AbortSignal.timeout(10_000),
     });
+    if (!res.ok) throw new Error(`mcsrvstat responded ${res.status}`);
+    const raw = (await res.json()) as McSrvStat;
 
-    if (!res.ok) {
-      return NextResponse.json(
-        {
-          online: false,
-          host,
-          ip: null,
-          port: null,
-          motd: null,
-          playersOnline: 0,
-          playersMax: 0,
-          version: null,
-          icon: null,
-          fetchedAt: new Date().toISOString(),
-          error: `Upstream returned HTTP ${res.status}`,
-        } satisfies ServerStatus & { error: string },
-        { status: 200 },
-      );
-    }
-
-    const data = await res.json();
-
-    // mcsrvstat.us v3: `online` boolean, `players.online`/`players.max`,
-    // `motd.clean` (array of strings), `version` (string), `icon` (base64).
-    const motd: string | null = Array.isArray(data?.motd?.clean)
-      ? data.motd.clean.filter((s: unknown) => typeof s === "string" && s.length).join(" · ")
-      : typeof data?.motd?.clean === "string"
-        ? data.motd.clean
-        : null;
-
-    const status: ServerStatus = {
-      online: Boolean(data?.online),
-      host,
-      ip: data?.ip ?? null,
-      port: data?.port ?? null,
-      motd: motd ?? null,
-      playersOnline: Number(data?.players?.online ?? 0),
-      playersMax: Number(data?.players?.max ?? 0),
-      version: typeof data?.version === "string" ? data.version : null,
-      icon: typeof data?.icon === "string" ? data.icon : null,
-      fetchedAt: new Date().toISOString(),
+    const data = {
+      online: Boolean(raw.online),
+      players: {
+        online: raw.players?.online ?? 0,
+        max: raw.players?.max ?? 0,
+      },
+      version: raw.version ?? null,
+      motd: (raw.motd?.clean ?? []).join("\n").trim() || null,
+      motdRaw: raw.motd?.raw ?? [],
+      icon: raw.icon ?? null,
     };
 
-    return NextResponse.json(status);
-  } catch (err) {
-    return NextResponse.json(
-      {
-        online: false,
-        host,
-        ip: null,
-        port: null,
-        motd: null,
-        playersOnline: 0,
-        playersMax: 0,
-        version: null,
-        icon: null,
-        fetchedAt: new Date().toISOString(),
-        error: err instanceof Error ? err.message : "Unknown error",
-      } satisfies ServerStatus & { error: string },
-      { status: 200 },
-    );
+    cache = { at: now, data };
+    return NextResponse.json(data);
+  } catch {
+    // Serve stale data if we have it, otherwise report offline.
+    if (cache) return NextResponse.json(cache.data);
+    return NextResponse.json(OFFLINE);
   }
 }

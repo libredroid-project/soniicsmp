@@ -1,20 +1,14 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
-
-/* =========================================================================
-   SoniicSMP Webstore — Design System
-   Official Material Design 3 (dark) adapted with Minecraft gradient colors.
-   No background effects — flat dark surface.
-   MC wordmark: S=#4498DB o=#52BDD0 n=#5FE2C5 i=#30F19F i=#00FF79
-                c=#77924F S=#EE2525 M=#F03535 P=#F24545
-   Brand accent: #00FF79 (Minecraft green)
-   ========================================================================= */
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -44,535 +38,157 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 28px;
-  --font-sans: var(--font-roboto-flex, "Roboto Flex"), "Roboto", system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono, "JetBrains Mono"), ui-monospace, monospace;
+  --color-dim: var(--dim);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --font-heading: var(--font-sans);
+  --font-hand: var(--font-caveat);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-:root,
+:root {
+  /* SoniicSMP store · theme tokens carried over 1:1 from aesthetic.pub's
+     compiled stylesheet (dark, neutral, monochrome). */
+  --radius: 0.625rem;
+  --background: #0a0a0a;
+  --foreground: oklch(98.5% 0 0);
+  --card: #111111;
+  --card-foreground: oklch(98.5% 0 0);
+  --popover: #111111;
+  --popover-foreground: oklch(98.5% 0 0);
+  --primary: oklch(92.2% 0 0);
+  --primary-foreground: #111111;
+  --secondary: #1d1d1d;
+  --secondary-foreground: oklch(98.5% 0 0);
+  --muted: #161616;
+  --muted-foreground: #8a8a8a;
+  --dim: #8a8a8a;
+  --accent: #1d1d1d;
+  --accent-foreground: oklch(98.5% 0 0);
+  --destructive: oklch(70.4% 0.191 22.216);
+  --border: #1f1f1f;
+  --input: #1f1f1f;
+  --ring: #3a3a3a;
+  --chart-1: oklch(87% 0 0);
+  --chart-2: oklch(55.6% 0 0);
+  --chart-3: oklch(43.9% 0 0);
+  --chart-4: oklch(37.1% 0 0);
+  --chart-5: oklch(26.9% 0 0);
+  --sidebar: #111111;
+  --sidebar-foreground: oklch(98.5% 0 0);
+  --sidebar-primary: oklch(48.8% 0.243 264.376);
+  --sidebar-primary-foreground: oklch(98.5% 0 0);
+  --sidebar-accent: #1d1d1d;
+  --sidebar-accent-foreground: oklch(98.5% 0 0);
+  --sidebar-border: #1f1f1f;
+  --sidebar-ring: #3a3a3a;
+}
+
 .dark {
-  --radius: 0.75rem;
-
-  /* === Material 3 dark surfaces (neutral dark, no green tint) === */
-  --md-surface: #141517;
-  --md-on-surface: #E8EAED;
-  --md-on-surface-variant: #B0B5BB;
-  --md-outline: #454A50;
-  --md-outline-variant: #2A2E33;
-  --md-surface-container-lowest: #0F1011;
-  --md-surface-container-low: #191B1D;
-  --md-surface-container: #1F2124;
-  --md-surface-container-high: #292C2F;
-  --md-surface-container-highest: #33373B;
-  --md-scrim: rgba(0, 0, 0, 0.6);
-
-  /* === Brand (Minecraft blue — matches the flagship Sonic rank) === */
-  --brand: #4498DB;
-  --brand-strong: #3A85C4;
-  --brand-hover: #5FB0E8;
-  --brand-container: rgba(68, 152, 219, 0.15);
-  --brand-on: #FFFFFF;
-
-  /* Secondary tonal container (blue-tinted to match brand) */
-  --md-secondary-container: #10304A;
-  --md-on-secondary-container: #A6D4F5;
-
-  /* === Minecraft wordmark colors === */
-  --mc-s1: #4498DB;
-  --mc-o:  #52BDD0;
-  --mc-n:  #5FE2C5;
-  --mc-i1: #30F19F;
-  --mc-i2: #00FF79;
-  --mc-c:  #77924F;
-  --mc-s2: #EE2525;
-  --mc-m:  #F03535;
-  --mc-p:  #F24545;
-
-  /* Halloween dark purple surface */
-  --md-purple-surface: #1C1130;
-  --md-purple-container: #271640;
-  --md-purple-on-surface: #E8D9F5;
-  --md-purple-outline-variant: #3A2456;
-
-  /* Status */
-  --md-success: #4CC56A;
-  --md-success-container: rgba(76, 197, 106, 0.15);
-  --md-error: #F24545;
-
-  /* === Material 3 elevation === */
-  --elev-1: 0 1px 2px rgba(0,0,0,0.3), 0 1px 3px 1px rgba(0,0,0,0.15);
-  --elev-2: 0 1px 2px rgba(0,0,0,0.3), 0 2px 6px 2px rgba(0,0,0,0.15);
-  --elev-3: 0 4px 8px 3px rgba(0,0,0,0.18), 0 1px 3px rgba(0,0,0,0.3);
-
-  /* Motion */
-  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
-  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* === Map shadcn variables to the dark MC theme === */
-  --background: #141517;
-  --foreground: #E8EAED;
-  --card: #1F2124;
-  --card-foreground: #E8EAED;
-  --popover: #1F2124;
-  --popover-foreground: #E8EAED;
-  --primary: #4498DB;
-  --primary-foreground: #FFFFFF;
-  --secondary: #292C2F;
-  --secondary-foreground: #E8EAED;
-  --muted: #292C2F;
-  --muted-foreground: #B0B5BB;
-  --accent: #10304A;
-  --accent-foreground: #A6D4F5;
-  --destructive: #F24545;
-  --destructive-foreground: #FFFFFF;
-  --border: #2A2E33;
-  --input: #2A2E33;
-  --ring: #4498DB;
-  --chart-1: #4498DB;
-  --chart-2: #00FF79;
-  --chart-3: #5FE2C5;
-  --chart-4: #77924F;
-  --chart-5: #EE2525;
-  --sidebar: #191B1D;
-  --sidebar-foreground: #E8EAED;
-  --sidebar-primary: #4498DB;
-  --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #292C2F;
-  --sidebar-accent-foreground: #E8EAED;
-  --sidebar-border: #2A2E33;
-  --sidebar-ring: #4498DB;
+  --background: #0a0a0a;
+  --foreground: oklch(98.5% 0 0);
+  --card: #111111;
+  --card-foreground: oklch(98.5% 0 0);
+  --popover: #111111;
+  --popover-foreground: oklch(98.5% 0 0);
+  --primary: oklch(92.2% 0 0);
+  --primary-foreground: #111111;
+  --secondary: #1d1d1d;
+  --secondary-foreground: oklch(98.5% 0 0);
+  --muted: #161616;
+  --muted-foreground: #8a8a8a;
+  --dim: #8a8a8a;
+  --accent: #1d1d1d;
+  --accent-foreground: oklch(98.5% 0 0);
+  --destructive: oklch(70.4% 0.191 22.216);
+  --border: #1f1f1f;
+  --input: #1f1f1f;
+  --ring: #3a3a3a;
+  --chart-1: oklch(87% 0 0);
+  --chart-2: oklch(55.6% 0 0);
+  --chart-3: oklch(43.9% 0 0);
+  --chart-4: oklch(37.1% 0 0);
+  --chart-5: oklch(26.9% 0 0);
+  --sidebar: #111111;
+  --sidebar-foreground: oklch(98.5% 0 0);
+  --sidebar-primary: oklch(48.8% 0.243 264.376);
+  --sidebar-primary-foreground: oklch(98.5% 0 0);
+  --sidebar-accent: #1d1d1d;
+  --sidebar-accent-foreground: oklch(98.5% 0 0);
+  --sidebar-border: #1f1f1f;
+  --sidebar-ring: #3a3a3a;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-  html {
-    scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
-  }
   body {
     @apply bg-background text-foreground;
-    font-family: "Roboto Flex", "Roboto", system-ui, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
-    position: relative;
-    font-feature-settings: "ss01", "cv01";
-    /* Flat background, no effects */
-    background-color: var(--md-surface);
   }
-  h1, h2, h3, h4, h5, h6 {
-    font-weight: 500;
-    letter-spacing: -0.01em;
-  }
-  ::selection {
-    background: var(--brand-container);
-    color: var(--brand);
+  html {
+    @apply font-sans;
   }
 }
 
-@layer components {
-  /* === Kodanetwork top app bar (matches host.kodanetwork.eu) === */
-  .top-app-bar {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    background: var(--md-surface);
-    transition: background 0.3s var(--ease-standard), box-shadow 0.3s var(--ease-standard);
-  }
-  .top-app-bar.scrolled {
-    background: var(--md-surface-container);
-    box-shadow: var(--elev-2);
-  }
-
-  /* === Material 3 buttons === */
-  .m3-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-weight: 500;
-    font-size: 0.875rem;
-    line-height: 1;
-    border-radius: 999px;
-    padding: 0 24px;
-    min-height: 40px;
-    transition: box-shadow 0.2s var(--ease-standard), background 0.2s var(--ease-standard), transform 0.1s var(--ease-standard);
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    border: none;
-    white-space: nowrap;
-    letter-spacing: 0.01em;
-  }
-  .m3-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: currentColor;
-    opacity: 0;
-    transition: opacity 0.2s var(--ease-standard);
-    pointer-events: none;
-  }
-  .m3-btn:hover::before { opacity: 0.08; }
-  .m3-btn:active { transform: scale(0.98); }
-  .m3-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-  .m3-btn-filled {
-    background: var(--brand);
-    color: var(--brand-on);
-  }
-  .m3-btn-filled:hover {
-    box-shadow: var(--elev-1);
-    background: var(--brand-hover);
-  }
-  .m3-btn-tonal {
-    background: var(--md-secondary-container);
-    color: var(--md-on-secondary-container);
-  }
-  .m3-btn-tonal:hover { box-shadow: var(--elev-1); }
-  .m3-btn-outlined {
-    background: transparent;
-    color: var(--brand);
-    box-shadow: inset 0 0 0 1px var(--md-outline);
-  }
-  .m3-btn-outlined:hover {
-    background: var(--brand-container);
-    box-shadow: inset 0 0 0 1px var(--brand);
-  }
-  .m3-btn-text {
-    background: transparent;
-    color: var(--brand);
-    padding: 0 12px;
-  }
-  .m3-btn-text:hover { background: var(--brand-container); }
-
-  /* === Material 3 cards (elevation only, no glow effects) === */
-  .m3-card {
-    background: var(--md-surface-container);
-    border: 1px solid var(--md-outline-variant);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--elev-1);
-    transition: box-shadow 0.25s var(--ease-standard), border-color 0.25s var(--ease-standard), transform 0.25s var(--ease-standard);
-  }
-  .m3-card-hover:hover {
-    box-shadow: var(--elev-3);
-    border-color: var(--md-outline);
-    transform: translateY(-2px);
-  }
-
-  /* === Material 3 chips === */
-  .m3-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 14px;
-    border-radius: 999px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    background: var(--md-surface-container-high);
-    color: var(--md-on-surface-variant);
-    border: 1px solid var(--md-outline-variant);
-    cursor: pointer;
-    transition: all 0.2s var(--ease-standard);
-    white-space: nowrap;
-  }
-  .m3-chip:hover {
-    color: var(--md-on-surface);
-    border-color: var(--md-outline);
-  }
-  .m3-chip[data-active="true"] {
-    background: var(--brand-container);
-    color: var(--brand);
-    border-color: var(--brand);
-  }
-
-  /* === Material 3 outlined text field === */
-  .m3-text-field {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    width: 100%;
-  }
-  .m3-text-field input,
-  .m3-text-field select {
-    width: 100%;
-    background: transparent;
-    border: 1px solid var(--md-outline);
-    border-radius: 8px;
-    padding: 14px 16px;
-    font-size: 0.95rem;
-    font-family: inherit;
-    color: var(--md-on-surface);
-    transition: border-color 0.15s var(--ease-standard), box-shadow 0.15s var(--ease-standard);
-    appearance: none;
-  }
-  .m3-text-field input::placeholder,
-  .m3-text-field select:invalid { color: transparent; }
-  .m3-text-field input:hover,
-  .m3-text-field select:hover { border-color: var(--md-on-surface); }
-  .m3-text-field input:focus,
-  .m3-text-field select:focus {
-    outline: none;
-    border-color: var(--brand);
-    border-width: 2px;
-    padding: 13px 15px;
-    box-shadow: none;
-  }
-  .m3-text-field label {
-    position: absolute;
-    top: -7px;
-    left: 12px;
-    padding: 0 4px;
-    background: var(--md-surface-container);
-    font-size: 0.75rem;
-    color: var(--md-on-surface-variant);
-    pointer-events: none;
-    border-radius: 4px;
-  }
-  .m3-text-field input:focus + label,
-  .m3-text-field select:focus + label {
-    color: var(--brand);
-  }
-
-  /* === Minecraft wordmark (per-letter color, no glow) === */
-  .mc-wordmark {
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    font-family: "Roboto Flex", sans-serif;
-  }
-
-  /* === Status dot === */
-  .pulse-dot {
-    position: relative;
-    width: 8px;
-    height: 8px;
-    border-radius: 999px;
-    background: var(--md-success);
-  }
-  .pulse-dot::after {
-    content: '';
-    position: absolute;
-    inset: -3px;
-    border-radius: 999px;
-    border: 2px solid var(--md-success);
-    opacity: 0.6;
-    animation: pulse-ring 1.8s var(--ease-emphasized) infinite;
-  }
-  .pulse-dot.offline {
-    background: var(--md-error);
-  }
-  .pulse-dot.offline::after {
-    border-color: var(--md-error);
-    animation: none;
-    opacity: 0.4;
-  }
-  @keyframes pulse-ring {
-    0% { transform: scale(0.7); opacity: 0.6; }
-    100% { transform: scale(2.2); opacity: 0; }
-  }
-
-  /* === Section container === */
-  .container-m3 {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
-
-  /* === Custom scrollbar === */
-  .scrollbar-mc::-webkit-scrollbar { width: 8px; height: 8px; }
-  .scrollbar-mc::-webkit-scrollbar-track { background: transparent; }
-  .scrollbar-mc::-webkit-scrollbar-thumb {
-    background: var(--md-outline);
-    border-radius: 999px;
-  }
-  .scrollbar-mc::-webkit-scrollbar-thumb:hover { background: var(--md-on-surface-variant); }
+/* ── Lenis smooth scrolling ─────────────────────────────────────────── */
+html.lenis,
+html.lenis body {
+  height: auto;
 }
-
-@layer utilities {
-  .text-balance { text-wrap: balance; }
-  .text-pretty { text-wrap: pretty; }
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
 }
-
-/* === Halloween overlay effects (see halloween-effects.tsx) === */
-.hween-tint {
-  position: fixed;
-  inset: 0;
-  z-index: 20;
-  pointer-events: none;
-  background:
-    radial-gradient(60vw 60vh at 8% 0%, rgba(255, 107, 0, 0.1), transparent 60%),
-    radial-gradient(60vw 60vh at 100% 100%, rgba(156, 95, 226, 0.12), transparent 60%);
-  animation: hween-tint-pulse 9s ease-in-out infinite;
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
 }
-
-@keyframes hween-tint-pulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
-}
-
-.hween-layer {
-  position: fixed;
-  inset: 0;
-  z-index: 30;
+.lenis.lenis-stopped {
   overflow: hidden;
-  pointer-events: none;
 }
 
-.hween-ghost {
-  position: absolute;
-  bottom: -90px;
-  color: #e8eaed;
-  animation: hween-drift linear infinite;
-  will-change: transform, opacity;
+/* ── Scroll-reveal (activated by RevealGroup) ──────────────────────── */
+/* one-shot animation, so element hover transitions stay snappy and the
+   stagger delay does not linger after the reveal */
+.reveal {
+  opacity: 0;
 }
-
-@keyframes hween-drift {
-  0% {
-    transform: translate3d(0, 0, 0) rotate(-4deg);
+.reveal.is-visible {
+  opacity: 1;
+  animation: reveal-up 0.7s cubic-bezier(0.2, 0.6, 0.2, 1) backwards;
+}
+@keyframes reveal-up {
+  from {
     opacity: 0;
+    transform: translateY(18px);
   }
-  10% {
-    opacity: var(--g-o, 0.14);
-  }
-  50% {
-    transform: translate3d(var(--g-d, 60px), -55vh, 0) rotate(6deg);
-  }
-  90% {
-    opacity: var(--g-o, 0.14);
-  }
-  100% {
-    transform: translate3d(calc(var(--g-d, 60px) * -0.5), -112vh, 0) rotate(-5deg);
-    opacity: 0;
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 
-.hween-pumpkin {
-  position: absolute;
-  bottom: -110px;
-  filter: drop-shadow(0 0 10px rgba(255, 107, 0, 0.35));
-  animation: hween-pumpkin-rise linear infinite;
-  will-change: transform, opacity;
+/* delivery-graph bars grow from the floor when their card reveals */
+.reveal .bento-bar {
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition:
+    transform 0.55s cubic-bezier(0.2, 0.7, 0.25, 1),
+    background-color 0.3s ease;
+}
+.reveal.is-visible .bento-bar {
+  transform: scaleY(1);
 }
 
-@keyframes hween-pumpkin-rise {
-  0% {
-    transform: translate3d(0, 0, 0) rotate(-6deg);
-    opacity: 0;
-  }
-  8% {
-    opacity: var(--p-o, 0.5);
-  }
-  50% {
-    transform: translate3d(var(--p-d, 50px), -55vh, 0) rotate(8deg);
-  }
-  92% {
-    opacity: var(--p-o, 0.5);
-  }
-  100% {
-    transform: translate3d(calc(var(--p-d, 50px) * -0.6), -115vh, 0) rotate(-8deg);
-    opacity: 0;
-  }
-}
-
-.hween-bat {
-  position: absolute;
-  left: -80px;
-  color: #0b0c0d;
-  filter: drop-shadow(0 0 6px rgba(156, 95, 226, 0.8));
-  animation: hween-bat-fly linear infinite;
-  will-change: transform, opacity;
-}
-
-@keyframes hween-bat-fly {
-  0% {
-    transform: translate3d(0, 0, 0);
-    opacity: 0;
-  }
-  6% {
-    opacity: var(--b-o, 0.5);
-  }
-  25% {
-    transform: translate3d(calc((100vw + 160px) * 0.25), -24px, 0);
-  }
-  50% {
-    transform: translate3d(calc((100vw + 160px) * 0.5), 10px, 0);
-  }
-  75% {
-    transform: translate3d(calc((100vw + 160px) * 0.75), -18px, 0);
-  }
-  94% {
-    opacity: var(--b-o, 0.5);
-  }
-  100% {
-    transform: translate3d(calc(100vw + 160px), 0, 0);
-    opacity: 0;
-  }
-}
-
-.hween-bat-inner {
-  animation: hween-flap 0.32s ease-in-out infinite;
-  transform-origin: center;
-}
-
-@keyframes hween-flap {
-  0%, 100% { transform: scaleY(1); }
-  50% { transform: scaleY(0.55); }
-}
-
-.hween-spider {
-  position: absolute;
-  top: -6px;
-  transform-origin: top center;
-  color: #0b0c0d;
-  filter: drop-shadow(0 0 6px rgba(156, 95, 226, 0.7));
-  animation: hween-swing ease-in-out infinite alternate;
-  will-change: transform;
-}
-
-.hween-thread {
-  width: 1px;
-  margin: 0 auto;
-  background: linear-gradient(to bottom, transparent, rgba(232, 234, 237, 0.35));
-}
-
-@keyframes hween-swing {
-  from { transform: rotate(-3.5deg); }
-  to { transform: rotate(3.5deg); }
-}
-
-.hween-chaser {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 40;
-  width: 52px;
-  color: #e8eaed;
-  pointer-events: none;
-  filter: drop-shadow(0 0 14px rgba(156, 95, 226, 0.6));
-  transition: opacity 0.6s ease;
-  will-change: transform;
-}
-
-.hween-chaser-bob {
-  animation: hween-bob 1.6s ease-in-out infinite;
-}
-
-@keyframes hween-bob {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
-/* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+  .reveal,
+  .reveal .bento-bar {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none;
   }
 }

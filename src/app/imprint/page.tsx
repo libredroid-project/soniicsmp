@@ -6,118 +6,115 @@ export const metadata: Metadata = {
   description: "Legal information in accordance with § 5 DDG.",
 };
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <section className="flex flex-col gap-2">
-      <h2 className="text-lg font-semibold text-[var(--md-on-surface)] mt-2">{title}</h2>
-      {children}
-    </section>
-  );
-}
-
 export default function ImprintPage() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <main className="flex-1 flex flex-col py-12 lg:py-16">
-        <div className="container-m3 max-w-2xl mx-auto w-full">
-          <Link
-            href="/"
-            className="text-sm text-[var(--md-on-surface-variant)] hover:text-[var(--brand)] transition-colors"
-          >
-            ← Back to the store
-          </Link>
+    <main className="mx-auto max-w-2xl px-6 py-24">
+      <Link
+        href="/"
+        className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+      >
+        ← Back to the store
+      </Link>
 
-          <h1 className="text-3xl sm:text-4xl font-medium tracking-tight mt-6 mb-8">
-            Impressum (Imprint)
-          </h1>
+      <h1 className="mt-6 text-3xl font-bold tracking-tight sm:text-4xl">
+        Impressum (Imprint)
+      </h1>
 
-          <div className="m3-card rounded-[28px] p-6 sm:p-8 flex flex-col gap-4 text-sm leading-relaxed text-[var(--md-on-surface-variant)]">
-            <Section title="Information in accordance with § 5 DDG">
-              <p className="text-[var(--md-on-surface)]">
-                <strong>Provider:</strong>
-                <br />
-                KodaHosting / KodaNetwork
-                <br />
-                Represented by: Karol Brzostowski
-                <br />
-                Fixberg 17, 33106 Paderborn-Wewer
-                <br />
-                Deutschland
-              </p>
-            </Section>
+      <div className="mt-10 flex flex-col gap-8 text-sm leading-relaxed text-muted-foreground">
+        <section className="flex flex-col gap-2">
+          <h2 className="text-base font-semibold text-foreground">
+            Information in accordance with § 5 DDG
+          </h2>
+          <p className="text-foreground">
+            <strong>Provider:</strong>
+            <br />
+            KodaHosting / KodaNetwork
+            <br />
+            Represented by: Karol Brzostowski
+            <br />
+            Fixberg 17, 33106 Paderborn-Wewer
+            <br />
+            Deutschland
+          </p>
+        </section>
 
-            <Section title="Note on legal capacity">
-              <p>
-                The operator of this website is a minor under German law
-                (§ 106 BGB, beschränkte Geschäftsfähigkeit). Legal
-                responsibility for the operation of this service is jointly
-                held by the legal guardians. They can be reached via the
-                contact address below.
-              </p>
-            </Section>
+        <section className="flex flex-col gap-2">
+          <h2 className="text-base font-semibold text-foreground">
+            Note on legal capacity
+          </h2>
+          <p>
+            The operator of this website is a minor under German law (§ 106
+            BGB, beschränkte Geschäftsfähigkeit). Legal responsibility for the
+            operation of this service is jointly held by the legal guardians.
+            They can be reached via the contact address below.
+          </p>
+        </section>
 
-            <Section title="Contact">
-              <p>
-                Email:{" "}
-                <a
-                  href="mailto:contact@kodaserv.eu"
-                  className="text-[var(--brand)] hover:underline"
-                >
-                  contact@kodaserv.eu
-                </a>
-                <br />
-                Website:{" "}
-                <a
-                  href="https://host.kodanetwork.eu"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[var(--brand)] hover:underline"
-                >
-                  host.kodanetwork.eu
-                </a>
-              </p>
-            </Section>
+        <section className="flex flex-col gap-2">
+          <h2 className="text-base font-semibold text-foreground">Contact</h2>
+          <p>
+            Email:{" "}
+            <a
+              href="mailto:contact@kodaserv.eu"
+              className="text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground"
+            >
+              contact@kodaserv.eu
+            </a>
+            <br />
+            Website:{" "}
+            <a
+              href="https://host.kodanetwork.eu"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground"
+            >
+              host.kodanetwork.eu
+            </a>
+          </p>
+        </section>
 
-            <Section title="EU dispute resolution">
-              <p>
-                The European Commission provides a platform for online dispute
-                resolution (OS):{" "}
-                <a
-                  href="https://ec.europa.eu/consumers/odr/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[var(--brand)] hover:underline"
-                >
-                  https://ec.europa.eu/consumers/odr/
-                </a>
-                . We are not willing or obliged to participate in dispute
-                resolution proceedings before a consumer arbitration board.
-              </p>
-            </Section>
+        <section className="flex flex-col gap-2">
+          <h2 className="text-base font-semibold text-foreground">
+            EU dispute resolution
+          </h2>
+          <p>
+            The European Commission provides a platform for online dispute
+            resolution (OS):{" "}
+            <a
+              href="https://ec.europa.eu/consumers/odr/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground"
+            >
+              https://ec.europa.eu/consumers/odr/
+            </a>
+            . We are not willing or obliged to participate in dispute
+            resolution proceedings before a consumer arbitration board.
+          </p>
+        </section>
 
-            <Section title="Disclaimer">
-              <p>
-                The content of this website and our services are created with
-                the greatest care. However, we cannot guarantee the
-                content&apos;s accuracy, completeness, or topicality. As a
-                service provider, we are responsible for our own content
-                according to general laws.
-              </p>
-            </Section>
+        <section className="flex flex-col gap-2">
+          <h2 className="text-base font-semibold text-foreground">Disclaimer</h2>
+          <p>
+            The content of this website and our services are created with the
+            greatest care. However, we cannot guarantee the content&apos;s
+            accuracy, completeness, or topicality. As a service provider, we
+            are responsible for our own content according to general laws.
+          </p>
+        </section>
 
-            <Section title="Copyright">
-              <p>
-                The content and works created by the site operators on these
-                pages are subject to European copyright law.
-              </p>
-            </Section>
+        <section className="flex flex-col gap-2">
+          <h2 className="text-base font-semibold text-foreground">Copyright</h2>
+          <p>
+            The content and works created by the site operators on these pages
+            are subject to European copyright law.
+          </p>
+        </section>
 
-            <p className="text-xs text-[var(--md-on-surface-variant)] pt-2 border-t border-[var(--md-outline-variant)]">
-              Status: October 2026
-            </p>
-          </div>
-        </div>
-      </main>
-    </div>
+        <p className="border-t border-border pt-6 text-xs">
+          Status: November 2026
+        </p>
+      </div>
+    </main>
   );
 }

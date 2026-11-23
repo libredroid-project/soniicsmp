@@ -1,18 +1,20 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/sonner";
+import { SmoothScroll } from "@/components/site/smooth-scroll";
+import { cn } from "@/lib/utils";
 
-const robotoFlex = localFont({
-  src: "../fonts/RobotoFlex-Variable.woff2",
-  variable: "--font-roboto-flex",
+// Self-hosted so the build never depends on Google Fonts at build time.
+const inter = localFont({
+  src: "../fonts/Inter-Variable.woff2",
+  variable: "--font-sans",
   display: "swap",
 });
-
-const jetbrainsMono = localFont({
-  src: "../fonts/JetBrainsMono-Variable.woff2",
-  variable: "--font-jetbrains-mono",
+/** Handwritten marker font for the "v2 coming soon" scrawls. */
+const caveat = localFont({
+  src: "../fonts/Caveat-Variable.woff2",
+  variable: "--font-caveat",
   display: "swap",
 });
 
@@ -20,19 +22,7 @@ export const metadata: Metadata = {
   title: "SoniicSMP Store | Minecraft Server Ranks",
   description:
     "Support SoniicSMP and unlock ranks, crate keys, in-game coins, kits and cosmetics. Secure checkout powered by Tip4Serv. Join soniicsmp.de.",
-  keywords: [
-    "SoniicSMP",
-    "Minecraft server",
-    "Minecraft store",
-    "Minecraft ranks",
-    "Tip4Serv",
-    "SMP shop",
-    "Minecraft crates",
-  ],
-  authors: [{ name: "SoniicSMP" }],
-  icons: {
-    icon: "/favicon.ico",
-  },
+  keywords: ["SoniicSMP", "Minecraft", "server store", "ranks", "Tip4Serv", "soniicsmp.de"],
   openGraph: {
     title: "SoniicSMP Store",
     description:
@@ -40,16 +30,10 @@ export const metadata: Metadata = {
     siteName: "SoniicSMP Store",
     type: "website",
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "SoniicSMP Store",
-    description:
-      "Ranks, crates, coins, kits and cosmetics for SoniicSMP. Secure checkout via Tip4Serv.",
-  },
 };
 
-export const viewport = {
-  themeColor: "#161B16",
+export const viewport: Viewport = {
+  themeColor: "#0a0a0a",
 };
 
 export default function RootLayout({
@@ -58,13 +42,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
-      <body
-        className={`${robotoFlex.variable} ${jetbrainsMono.variable} antialiased bg-background text-foreground font-sans`}
-      >
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={cn("dark font-sans", inter.variable, caveat.variable)}
+    >
+      <body className="min-h-svh bg-background text-foreground antialiased">
+        <SmoothScroll />
         {children}
-        <Toaster />
-        <Sonner />
+        <Toaster position="bottom-center" richColors />
       </body>
     </html>
   );
